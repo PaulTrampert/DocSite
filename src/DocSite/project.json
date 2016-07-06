@@ -3,7 +3,18 @@
   "buildOptions": {
     "emitEntryPoint": true
   },
-
+  "packOptions": {
+    "projectUrl": "https://github.com/PaulTrampert/DocSite",
+    "licenseUrl": "https://opensource.org/licenses/MIT",
+    "owners": [
+      "Paul Trampert"
+    ],
+    "tags": [
+      "documentation",
+      "generator"
+    ],
+    "summary": "Builds documentation pages out of C# documentation comments."
+  },
   "dependencies": {
     "Microsoft.NETCore.App": {
       "type": "platform",
