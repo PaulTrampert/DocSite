@@ -10,10 +10,10 @@ namespace DocSite.Xml
 {
     public class ModelBuilder
     {
-        public DocSiteModel BuildModelFromXml(string xmlFileName)
+        public DocXmlModel BuildModelFromXml(string xmlFileName)
         {
             var xmlDoc = new XDocument();
-            var result = new DocSiteModel();
+            var result = new DocXmlModel();
             return result;
         }
     }

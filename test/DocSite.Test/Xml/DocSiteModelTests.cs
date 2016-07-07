@@ -9,14 +9,14 @@ using Xunit;
 
 namespace DocSite.Test.Xml
 {
-    public class DocSiteModelTests
+    public class DocXmlModelTests
     {
 
         [Fact]
         public void CanDeserializeDocSiteModel()
         {
-            var ser = new XmlSerializer(typeof(DocSiteModel));
-            var result = ser.Deserialize(new StringReader(XmlString)) as DocSiteModel;
+            var ser = new XmlSerializer(typeof(DocXmlModel));
+            var result = ser.Deserialize(new StringReader(XmlString)) as DocXmlModel;
             Assert.Equal("PTrampert.AppArgs", result.Assembly.Name);
             Assert.NotEmpty(result.Members);
         }

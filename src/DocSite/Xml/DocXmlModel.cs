@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 namespace DocSite.Xml
 {
     [XmlRoot("doc")]
-    public class DocSiteModel
+    public class DocXmlModel
     {
         [XmlElement("assembly")]
         public AssemblyDetails Assembly { get; set; }
@@ -16,7 +16,7 @@ namespace DocSite.Xml
         [XmlArrayItem("member")]
         public List<MemberDetails> Members { get; set; }
 
-        public DocSiteModel()
+        public DocXmlModel()
         {
             Assembly = new AssemblyDetails();
             Members = new List<MemberDetails>();
