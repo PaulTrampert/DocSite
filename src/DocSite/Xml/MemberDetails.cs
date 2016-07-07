@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace DocSite.Xml
@@ -13,9 +14,8 @@ namespace DocSite.Xml
         [XmlAttribute("name")]
         public string Id {get;set;}
 
-        [XmlText(typeof(string))]
         [XmlAnyElement]
-        public object[] DocXml {get;set;}
+        public XmlElement[] DocXml {get;set;}
 
         public MemberType Type
         {
