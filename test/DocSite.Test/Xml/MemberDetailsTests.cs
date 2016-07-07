@@ -14,6 +14,7 @@ namespace DocSite.Test.Xml
         [InlineData("N:DocSite.Test.Xml", MemberType.Namespace, "DocSite.Test.Xml", "Xml", "DocSite.Test", null)]
         [InlineData("T:DocSite.Test.Xml.MemberDetails", MemberType.Type, "DocSite.Test.Xml.MemberDetails", "MemberDetails", "DocSite.Test.Xml",null)]
         [InlineData("M:DocSite.Test.Xml.MemberDetails.#ctor", MemberType.Method, "DocSite.Test.Xml.MemberDetails.#ctor", "#ctor", "DocSite.Test.Xml.MemberDetails", null)]
+        [InlineData("M:DocSite.Test.Xml.MemberDetails.#ctor(System.String[])", MemberType.Method, "DocSite.Test.Xml.MemberDetails.#ctor(System.String[])", "#ctor(System.String[])", "DocSite.Test.Xml.MemberDetails", null)]
         [InlineData("P:DocSite.Test.Xml.MemberDetails.Id", MemberType.Property, "DocSite.Test.Xml.MemberDetails.Id", "Id", "DocSite.Test.Xml.MemberDetails", null)]
         [InlineData("F:DocSite.Test.Xml.MemberDetails.something", MemberType.Field, "DocSite.Test.Xml.MemberDetails.something", "something", "DocSite.Test.Xml.MemberDetails", null)]
         [InlineData("E:DocSite.Test.Xml.MemberDetails.OnEvent", MemberType.Event, "DocSite.Test.Xml.MemberDetails.OnEvent", "OnEvent", "DocSite.Test.Xml.MemberDetails", null)]

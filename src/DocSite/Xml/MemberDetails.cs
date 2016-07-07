@@ -9,7 +9,7 @@ namespace DocSite.Xml
     [XmlRoot("member")]
     public class MemberDetails
     {
-        public const string IdRegex = "^[NTFPME!]:\\S+$";
+        public const string IdRegex = @"^[NTFPME!]:(?<fullName>(?<namespace>([^\.\(]+\.?)+)\.(?<localName>[^\(\.]+(\([^\)]+\))?))$";
 
         [XmlAttribute("name")]
         public string Id {get;set;}
@@ -56,7 +56,7 @@ namespace DocSite.Xml
             get
             {
                 if (Type != MemberType.Error) return null;
-                return Id.Substring(Id.IndexOf(':') + 1);
+                return Regex.Match(Id, "!:(.*)").Groups[1].Value;
             }
         }
 
@@ -65,7 +65,7 @@ namespace DocSite.Xml
             get
             {
                 if (Type == MemberType.Error) return null;
-                return Id.Substring(Id.IndexOf(':') + 1, Id.LastIndexOf('.') - 2);
+                return ParseId().Groups["namespace"].Value;
             }
         }
 
@@ -74,7 +74,7 @@ namespace DocSite.Xml
             get
             {
                 if (Type == MemberType.Error) return null;
-                return Id.Substring(Id.IndexOf(':') + 1);
+                return ParseId().Groups["fullName"].Value;
             }
         }
 
@@ -83,8 +83,13 @@ namespace DocSite.Xml
             get
             {
                 if (Type == MemberType.Error) return null;
-                return Id.Substring(Id.LastIndexOf('.') + 1);
+                return ParseId().Groups["localName"].Value;
             }
+        }
+
+        private Match ParseId()
+        {
+            return Regex.Match(Id, IdRegex);
         }
     }
 }
