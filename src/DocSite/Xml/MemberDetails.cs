@@ -60,6 +60,15 @@ namespace DocSite.Xml
             }
         }
 
+        public string ParentMember
+        {
+            get
+            {
+                if (Type == MemberType.Error) return null;
+                return Id.Substring(Id.IndexOf(':') + 1, Id.LastIndexOf('.') - 2);
+            }
+        }
+
         public string FullName 
         {
             get

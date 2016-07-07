@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using DocSite.SiteModel;
 using Xunit;
 
 namespace DocSite.Test.Xml
@@ -19,6 +20,15 @@ namespace DocSite.Test.Xml
             var result = ser.Deserialize(new StringReader(XmlString)) as DocXmlModel;
             Assert.Equal("PTrampert.AppArgs", result.Assembly.Name);
             Assert.NotEmpty(result.Members);
+        }
+
+        [Fact]
+        public void CanBuildDocSiteModelFromDocXmlModel()
+        {
+            var ser = new XmlSerializer(typeof(DocXmlModel));
+            var result = ser.Deserialize(new StringReader(XmlString)) as DocXmlModel;
+            var siteModel = new DocSiteModel(result);
+            Assert.Equal("PTrampert.AppArgs", siteModel.AssemblyName);
         }
 
         private const string XmlString = @"<?xml version=""1.0""?>
