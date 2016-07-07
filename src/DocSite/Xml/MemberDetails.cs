@@ -1,15 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Xml.Serialization;
 
 namespace DocSite.Xml
 {
+    [XmlRoot("member")]
     public class MemberDetails
     {
         public const string IdRegex = "^[NTFPME!]:\\S+$";
+
+        [XmlAttribute("name")]
         public string Id {get;set;}
 
-        public string DocXml {get;set;}
+        [XmlText(typeof(string))]
+        [XmlAnyElement]
+        public object[] DocXml {get;set;}
 
         public MemberType Type
         {
@@ -70,14 +76,6 @@ namespace DocSite.Xml
                 if (Type == MemberType.Error) return null;
                 return Id.Substring(Id.LastIndexOf('.') + 1);
             }
-        }
-
-        public MemberDetails(string id, string docXml)
-        {
-            if (id == null) throw new ArgumentNullException(nameof(id));
-            if (!Regex.IsMatch(id, IdRegex)) throw new ArgumentException($"{nameof(id)} must match {IdRegex}", nameof(id));
-            Id = id;
-            DocXml = docXml;
         }
     }
 }
