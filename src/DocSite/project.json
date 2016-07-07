@@ -1,7 +1,9 @@
 {
   "version": "1.0.0-*",
   "buildOptions": {
-    "emitEntryPoint": true
+    "emitEntryPoint": true,
+    "embed": "**/*.html",
+    "compile": "**/*.cs"
   },
   "packOptions": {
     "projectUrl": "https://github.com/PaulTrampert/DocSite",
