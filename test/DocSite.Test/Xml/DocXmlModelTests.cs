@@ -29,6 +29,7 @@ namespace DocSite.Test.Xml
             var result = ser.Deserialize(new StringReader(XmlString)) as DocXmlModel;
             var siteModel = new DocSiteModel(result);
             Assert.Equal("PTrampert.AppArgs", siteModel.AssemblyName);
+            Assert.Equal(3, siteModel.Namespaces.Count());
         }
 
         private const string XmlString = @"<?xml version=""1.0""?>

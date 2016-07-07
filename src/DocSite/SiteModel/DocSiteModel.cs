@@ -10,12 +10,19 @@ namespace DocSite.SiteModel
     {
         public string AssemblyName { get; set; }
 
-        public IEnumerable<DocType> Types { get; set; }
+        public IEnumerable<Namespace> Namespaces { get; set; }
 
         public DocSiteModel(DocXmlModel xmlModel)
         {
             AssemblyName = xmlModel.Assembly.Name;
-            Types = xmlModel.Members.Where(m => m.Type == MemberType.Type).Select(m => new DocType(m, xmlModel.Members));
+            var namespaces = new List<string>();
+            var typesByParent = xmlModel.Members.Where(m => m.Type == MemberType.Type).GroupBy(m => m.ParentMember);
+            foreach (var parentTypeMapping in typesByParent)
+            {
+                if (!xmlModel.Members.Any(m => m.FullName == parentTypeMapping.Key))
+                    namespaces.Add(parentTypeMapping.Key);
+            }
+            Namespaces = namespaces.Distinct().Select(n => new Namespace(new MemberDetails {Id = $"N:{n}"}, xmlModel.Members));
         }
     }
 }

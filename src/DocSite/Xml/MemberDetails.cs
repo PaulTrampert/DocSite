@@ -9,7 +9,7 @@ namespace DocSite.Xml
     [XmlRoot("member")]
     public class MemberDetails
     {
-        public const string IdRegex = @"^[NTFPME!]:(?<fullName>(?<namespace>([^\.\(]+\.?)+)\.(?<localName>[^\(\.]+(\([^\)]+\))?))$";
+        public const string IdRegex = @"^[NTFPME!]:(?<fullName>(?<namespace>([^\.\(]+\.)+)(?<localName>[^\(\.]+(\([^\)]+\))?))$";
 
         [XmlAttribute("name")]
         public string Id {get;set;}
@@ -65,7 +65,7 @@ namespace DocSite.Xml
             get
             {
                 if (Type == MemberType.Error) return null;
-                return ParseId().Groups["namespace"].Value;
+                return ParseId().Groups["namespace"].Value.TrimEnd('.');
             }
         }
 
