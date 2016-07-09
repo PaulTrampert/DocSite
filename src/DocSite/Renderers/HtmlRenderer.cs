@@ -44,11 +44,39 @@ namespace DocSite.Renderers
             return template.Replace("@Body", body.ToString());
         }
 
+        public string RenderTableSection(TableSection section)
+        {
+            var templateName = "TableSection.html";
+            var tableTemplate = _templateLoader.LoadTemplate(templateName);
+            if (tableTemplate == null) throw new TemplateNotFoundException(templateName);
+
+            templateName = "TableRow.html";
+            var rowTemplate = _templateLoader.LoadTemplate(templateName);
+            if (rowTemplate == null) throw new TemplateNotFoundException(templateName);
+
+            var headers = string.Join("", section.Headers.Select(h => $"<th>{h}</th>"));
+            var rows = new StringBuilder();
+            foreach (var row in section.Rows)
+            {
+                var columns = string.Join("",
+                    row.Columns.Select(
+                        c =>
+                            c.Link == null
+                                ? RenderNode(c.Content)
+                                : $"<a href=\"{c.Link}.html\">{RenderNode(c.Content)}</a>"));
+                rows.Append(rowTemplate.Replace("@Columns", columns));
+            }
+            return tableTemplate
+                .Replace("@Title", section.Title)
+                .Replace("@Headers", headers)
+                .Replace("@Rows", rows.ToString());
+        }
+
         public string RenderNode(XmlNode node)
         {
             var templateName = $"{node.Name.Trim('#')}.html";
             var template = _templateLoader.LoadTemplate(templateName);
-            if (template == null) throw new TemplateNotFoundException(templateName);
+            if (template == null) return node.InnerText.Trim();
 
             var body = new StringBuilder();
             if (node.HasChildNodes)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 using DocSite.Renderers;
 using DocSite.Xml;
 using DocSite.Pages;
@@ -52,11 +53,22 @@ namespace DocSite.SiteModel
                 Name = "index.html",
                 AssemblyName = AssemblyName,
                 Title = AssemblyName,
-                Sections = new Section[0]
+                Sections = new[]
+                {
+                    new TableSection
+                    {
+                        Title = "Namespaces",
+                        Headers = new []{"Namespace"},
+                        Rows = Namespaces.Select(n => new TableRow
+                        {
+                            Columns = new []{new TableData {Link = n.MemberDetails.Id, Content = new XmlDocument() {InnerText = n.Name} } }
+                        })
+                    }
+                }
             };
         }
 
-        public IEnumerable<Page> BuildPages(IRenderer renderer)
+        public IEnumerable<Page> BuildPages()
         {
             foreach (var member in MembersDictionary)
             {
@@ -64,5 +76,7 @@ namespace DocSite.SiteModel
             }
             yield return BuildPage(this);
         }
+
+        
     }
 }

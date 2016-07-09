@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml;
 using DocSite.Renderers;
 
 namespace DocSite.Pages
 {
-    public class Section : IRenderable
+    public class TableSection : IRenderable
     {
         public string Title { get; set; }
 
-        public IEnumerable<XmlNode> Body { get; set; }
+        public IEnumerable<string> Headers { get; set; }
+
+        public IEnumerable<TableRow> Rows { get; set; }
         public string RenderWith(IRenderer renderer)
         {
-            return renderer.RenderSection(this);
+            return renderer.RenderTableSection(this);
         }
     }
 }

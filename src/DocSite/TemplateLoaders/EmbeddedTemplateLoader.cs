@@ -20,10 +20,17 @@ namespace DocSite.TemplateLoaders
         }
         public string LoadTemplate(string name)
         {
-            var templateNames = _assembly.GetManifestResourceNames();
-            using (var reader = new StreamReader(_assembly.GetManifestResourceStream($"{_templateNamespace}.{name}")))
+            try
             {
-                return reader.ReadToEnd();
+                using (
+                    var reader = new StreamReader(_assembly.GetManifestResourceStream($"{_templateNamespace}.{name}")))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
     }
