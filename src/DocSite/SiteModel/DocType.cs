@@ -42,12 +42,12 @@ namespace DocSite.SiteModel
             if (memberDetails.Type != MemberType.Type) throw new ArgumentException($"{nameof(memberDetails)} must be {MemberType.Type}", nameof(memberDetails));
             Parent = parent;
             MemberDetails = memberDetails;
-            Constructors = otherMembers.Where(m => m.Type == MemberType.Method && m.ParentMember == Name && m.LocalName.StartsWith("#ctor")).Select(m => new DocConstructor(m));
-            Properties = otherMembers.Where(m => m.Type == MemberType.Property && m.ParentMember == Name).Select(m => new DocProperty(m));
-            Methods = otherMembers.Where(m => m.Type == MemberType.Method && m.ParentMember == Name && !m.LocalName.StartsWith("#ctor")).Select(m => new DocMethod(m));
-            Fields = otherMembers.Where(m => m.Type == MemberType.Field && m.ParentMember == Name).Select(m => new DocField(m));
-            Events = otherMembers.Where(m => m.Type == MemberType.Event && m.ParentMember == Name).Select(m => new DocEvent(m));
-            Types = otherMembers.Where(m => m.Type == MemberType.Type && m.ParentMember == Name).Select(m => new DocType(m, otherMembers));
+            Constructors = otherMembers.Where(m => m.Type == MemberType.Method && m.ParentMember == Name && m.LocalName.StartsWith("#ctor")).Select(m => new DocConstructor(m, this));
+            Properties = otherMembers.Where(m => m.Type == MemberType.Property && m.ParentMember == Name).Select(m => new DocProperty(m, this));
+            Methods = otherMembers.Where(m => m.Type == MemberType.Method && m.ParentMember == Name && !m.LocalName.StartsWith("#ctor")).Select(m => new DocMethod(m, this));
+            Fields = otherMembers.Where(m => m.Type == MemberType.Field && m.ParentMember == Name).Select(m => new DocField(m, this));
+            Events = otherMembers.Where(m => m.Type == MemberType.Event && m.ParentMember == Name).Select(m => new DocEvent(m, this));
+            Types = otherMembers.Where(m => m.Type == MemberType.Type && m.ParentMember == Name).Select(m => new DocType(m, otherMembers, this));
         }
 
         public void AddMembersToDictionary(IDictionary<string, IDocModel> membersDictionary)

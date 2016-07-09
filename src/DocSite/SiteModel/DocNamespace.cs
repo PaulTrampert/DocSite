@@ -21,7 +21,7 @@ namespace DocSite.SiteModel
             if (otherMembers == null) throw new ArgumentNullException(nameof(otherMembers));
             if (memberDetails.Type != MemberType.Namespace) throw new ArgumentException($"{nameof(memberDetails)} must be {MemberType.Namespace}", nameof(memberDetails));
             MemberDetails = memberDetails;
-            Types = otherMembers.Where(m => m.Type == MemberType.Type && m.ParentMember == Name).Select(m => new DocType(m, otherMembers));
+            Types = otherMembers.Where(m => m.Type == MemberType.Type && m.ParentMember == Name).Select(m => new DocType(m, otherMembers, this));
         }
 
         public void AddMembersToDictionary(IDictionary<string, IDocModel> membersDictionary)
