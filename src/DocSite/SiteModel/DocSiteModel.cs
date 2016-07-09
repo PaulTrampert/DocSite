@@ -44,7 +44,7 @@ namespace DocSite.SiteModel
             }
         }
 
-        public Page RenderPage(DocSiteModel context)
+        public Page RenderPage(DocSiteModel context, IRenderer renderer)
         {
             throw new NotImplementedException();
         }
@@ -53,7 +53,7 @@ namespace DocSite.SiteModel
         {
             foreach (var member in MembersDictionary)
             {
-                yield return member.RenderPage(this, renderer);
+                yield return member.Value.RenderPage(this, renderer);
             }
         }
     }

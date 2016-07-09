@@ -42,7 +42,7 @@ namespace DocSite.SiteModel
             membersDictionary.Add(MemberDetails.Id, this);
         }
 
-        public Page RenderPage(DocSiteModel context)
+        public Page RenderPage(DocSiteModel context, IRenderer renderer)
         {
             throw new NotImplementedException();
         }
