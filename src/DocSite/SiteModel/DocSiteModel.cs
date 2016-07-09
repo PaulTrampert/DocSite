@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DocSite.Renderers;
 using DocSite.Xml;
 
 namespace DocSite.SiteModel
@@ -40,6 +41,19 @@ namespace DocSite.SiteModel
             foreach (var ns in Namespaces)
             {
                 ns.AddMembersToDictionary(MembersDictionary);
+            }
+        }
+
+        public Page RenderPage(DocSiteModel context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Page> RenderPages(IRenderer renderer)
+        {
+            foreach (var member in MembersDictionary)
+            {
+                yield return member.RenderPage(this, renderer);
             }
         }
     }

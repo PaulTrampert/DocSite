@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using DocSite.Renderers;
 using DocSite.Xml;
 
 namespace DocSite.SiteModel
@@ -42,6 +43,11 @@ namespace DocSite.SiteModel
         {
             if (membersDictionary == null) throw new ArgumentNullException(nameof(membersDictionary));
             membersDictionary.Add(MemberDetails.Id, this);
+        }
+
+        public Page RenderPage(DocSiteModel context, IRenderer renderer)
+        {
+            throw new NotImplementedException();
         }
     }
 }

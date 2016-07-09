@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DocSite.Renderers;
 using DocSite.Xml;
 
 namespace DocSite.SiteModel
@@ -32,6 +33,11 @@ namespace DocSite.SiteModel
                 type.AddMembersToDictionary(membersDictionary);
             }
             membersDictionary.Add(MemberDetails.Id, this);
+        }
+
+        public Page RenderPage(DocSiteModel context, IRenderer renderer)
+        {
+            throw new NotImplementedException();
         }
     }
 }
