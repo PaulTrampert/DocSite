@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using DocSite.TemplateLoaders;
 
 namespace DocSite.Renderers
 {
@@ -78,10 +79,5 @@ namespace DocSite.Renderers
         public TemplateNotFoundException(string templateName) : base($"{templateName} could not be found")
         {
         }
-    }
-
-    internal interface ITemplateLoader
-    {
-        string LoadTemplate(string name);
     }
 }
