@@ -6,7 +6,7 @@ using DocSite.Xml;
 
 namespace DocSite.SiteModel
 {
-    public class DocType
+    public class DocType : IDocModel
     {
         public MemberDetails MemberDetails { get; }
 
@@ -46,6 +46,17 @@ namespace DocSite.SiteModel
             Fields = otherMembers.Where(m => m.Type == MemberType.Field && m.ParentMember == Name).Select(m => new DocField(m));
             Events = otherMembers.Where(m => m.Type == MemberType.Event && m.ParentMember == Name).Select(m => new DocEvent(m));
             Types = otherMembers.Where(m => m.Type == MemberType.Type && m.ParentMember == Name).Select(m => new DocType(m, otherMembers));
+        }
+
+        public void AddMembersToDictionary(IDictionary<string, IDocModel> membersDictionary)
+        {
+            if (membersDictionary == null) throw new ArgumentNullException(nameof(membersDictionary));
+            var members = Constructors.Cast<IDocModel>().Union(Properties).Union(Methods).Union(Fields).Union(Events).Union(Types);
+            foreach (var member in members)
+            {
+                member.AddMembersToDictionary(membersDictionary);
+            }
+            membersDictionary.Add(MemberDetails.Id, this);
         }
     }
 }

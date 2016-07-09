@@ -6,7 +6,7 @@ using DocSite.Xml;
 
 namespace DocSite.SiteModel
 {
-    public class DocEvent
+    public class DocEvent : IDocModel
     {
         public MemberDetails MemberDetails { get; }
 
@@ -31,6 +31,12 @@ namespace DocSite.SiteModel
             if (memberDetails == null) throw new ArgumentNullException(nameof(memberDetails));
             if (memberDetails.Type != MemberType.Event) throw new ArgumentException($"{nameof(memberDetails)} must be {MemberType.Event}", nameof(memberDetails));
             MemberDetails = memberDetails;
+        }
+
+        public void AddMembersToDictionary(IDictionary<string, IDocModel> membersDictionary)
+        {
+            if (membersDictionary == null) throw new ArgumentNullException(nameof(membersDictionary));
+            membersDictionary.Add(MemberDetails.Id, this);
         }
     }
 }

@@ -6,7 +6,7 @@ using DocSite.Xml;
 
 namespace DocSite.SiteModel
 {
-    public class DocNamespace
+    public class DocNamespace : IDocModel
     {
         public MemberDetails MemberDetails { get; }
 
@@ -21,6 +21,16 @@ namespace DocSite.SiteModel
             if (memberDetails.Type != MemberType.Namespace) throw new ArgumentException($"{nameof(memberDetails)} must be {MemberType.Namespace}", nameof(memberDetails));
             MemberDetails = memberDetails;
             Types = otherMembers.Where(m => m.Type == MemberType.Type && m.ParentMember == Name).Select(m => new DocType(m, otherMembers));
+        }
+
+        public void AddMembersToDictionary(IDictionary<string, IDocModel> membersDictionary)
+        {
+            if (membersDictionary == null) throw new ArgumentNullException(nameof(membersDictionary));
+            foreach (var type in Types)
+            {
+                type.AddMembersToDictionary(membersDictionary);
+            }
+            membersDictionary.Add(MemberDetails.Id, this);
         }
     }
 }

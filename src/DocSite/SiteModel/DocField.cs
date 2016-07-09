@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace DocSite.SiteModel
 {
-    public class DocField
+    public class DocField : IDocModel
     {
         public MemberDetails MemberDetails { get; }
 
@@ -30,6 +30,12 @@ namespace DocSite.SiteModel
             if (memberDetails == null) throw new ArgumentNullException(nameof(memberDetails));
             if (memberDetails.Type != MemberType.Field) throw new ArgumentException($"{nameof(memberDetails)} must be {MemberType.Field}", nameof(memberDetails));
             MemberDetails = memberDetails;
+        }
+
+        public void AddMembersToDictionary(IDictionary<string, IDocModel> membersDictionary)
+        {
+            if (membersDictionary == null) throw new ArgumentNullException(nameof(membersDictionary));
+            membersDictionary.Add(MemberDetails.Id, this);
         }
     }
 }

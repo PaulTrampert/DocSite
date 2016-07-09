@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DocSite.SiteModel
 {
-    public class DocProperty
+    public class DocProperty : IDocModel
     {
         public MemberDetails MemberDetails { get; }
 
@@ -31,6 +31,12 @@ namespace DocSite.SiteModel
             if (memberDetails == null) throw new ArgumentNullException(nameof(memberDetails));
             if (memberDetails.Type != MemberType.Property) throw new ArgumentException($"{nameof(memberDetails)} must be {MemberType.Property}", nameof(memberDetails));
             MemberDetails = memberDetails;
+        }
+
+        public void AddMembersToDictionary(IDictionary<string, IDocModel> membersDictionary)
+        {
+            if (membersDictionary == null) throw new ArgumentNullException(nameof(membersDictionary));
+            membersDictionary.Add(MemberDetails.Id, this);
         }
     }
 }

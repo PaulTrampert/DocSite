@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace DocSite.SiteModel
 {
-    public class DocConstructor
+    public class DocConstructor : IDocModel
     {
         public MemberDetails MemberDetails { get; }
 
@@ -32,6 +32,12 @@ namespace DocSite.SiteModel
             if (memberDetails.Type != MemberType.Method) throw new ArgumentException($"{nameof(memberDetails)} must be {MemberType.Method}", nameof(memberDetails));
             if (!memberDetails.LocalName.StartsWith("#ctor")) throw new ArgumentException($"{nameof(memberDetails)} describes a method", nameof(memberDetails));
             MemberDetails = memberDetails;
+        }
+
+        public void AddMembersToDictionary(IDictionary<string, IDocModel> membersDictionary)
+        {
+            if (membersDictionary == null) throw new ArgumentNullException(nameof(membersDictionary));
+            membersDictionary.Add(MemberDetails.Id, this);
         }
     }
 }

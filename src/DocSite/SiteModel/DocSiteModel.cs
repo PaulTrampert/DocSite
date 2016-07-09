@@ -8,9 +8,11 @@ namespace DocSite.SiteModel
 {
     public class DocSiteModel
     {
-        public string AssemblyName { get; set; }
+        public string AssemblyName { get; }
 
-        public IEnumerable<DocNamespace> Namespaces { get; set; }
+        public IEnumerable<DocNamespace> Namespaces { get; }
+
+        public IDictionary<string, IDocModel> MembersDictionary { get; }
 
         public DocSiteModel(DocXmlModel xmlModel)
         {
@@ -23,6 +25,12 @@ namespace DocSite.SiteModel
                     namespaces.Add(parentTypeMapping.Key);
             }
             Namespaces = namespaces.Distinct().Select(n => new DocNamespace(new MemberDetails {Id = $"N:{n}"}, xmlModel.Members));
+
+            MembersDictionary = new Dictionary<string, IDocModel>();
+            foreach (var ns in Namespaces)
+            {
+                ns.AddMembersToDictionary(MembersDictionary);
+            }
         }
     }
 }
