@@ -8,6 +8,6 @@ namespace DocSite.Renderers
 {
     public interface IRenderer
     {
-        string RenderElement(XmlElement element);
+        string RenderNode(XmlNode node);
     }
 }

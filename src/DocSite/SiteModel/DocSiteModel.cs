@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DocSite.Renderers;
 using DocSite.Xml;
+using DocSite.Pages;
 
 namespace DocSite.SiteModel
 {
@@ -44,17 +45,24 @@ namespace DocSite.SiteModel
             }
         }
 
-        public Page RenderPage(DocSiteModel context, IRenderer renderer)
+        public Page BuildPage(DocSiteModel context)
         {
-            throw new NotImplementedException();
+            return new Page
+            {
+                Name = "index.html",
+                AssemblyName = AssemblyName,
+                Title = AssemblyName,
+                Sections = new Section[0]
+            };
         }
 
-        public IEnumerable<Page> RenderPages(IRenderer renderer)
+        public IEnumerable<Page> BuildPages(IRenderer renderer)
         {
             foreach (var member in MembersDictionary)
             {
-                yield return member.Value.RenderPage(this, renderer);
+                yield return member.Value.BuildPage(this);
             }
+            yield return BuildPage(this);
         }
     }
 }

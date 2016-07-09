@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DocSite.Renderers;
 using DocSite.Xml;
+using DocSite.Pages;
 
 namespace DocSite.SiteModel
 {
@@ -35,7 +36,7 @@ namespace DocSite.SiteModel
             membersDictionary.Add(MemberDetails.Id, this);
         }
 
-        public Page RenderPage(DocSiteModel context, IRenderer renderer)
+        public Page BuildPage(DocSiteModel context)
         {
             throw new NotImplementedException();
         }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Linq;
 using DocSite.Renderers;
+using DocSite.Pages;
 
 namespace DocSite.SiteModel
 {
@@ -43,9 +44,22 @@ namespace DocSite.SiteModel
             membersDictionary.Add(MemberDetails.Id, this);
         }
 
-        public Page RenderPage(DocSiteModel context, IRenderer renderer)
+        public Page BuildPage(DocSiteModel context)
         {
-            throw new NotImplementedException();
+            return new Page
+            {
+                AssemblyName = context.AssemblyName,
+                Name = MemberDetails.Id,
+                Title = MemberDetails.LocalName,
+                Sections = new []
+                {
+                    new Section
+                    {
+                        Title = "Summary",
+                        Body = Summary.ChildNodes.Cast<XmlNode>()
+                    }, 
+                }
+            };
         }
     }
 }

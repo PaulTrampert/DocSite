@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using DocSite.Renderers;
 using DocSite.Xml;
+using DocSite.Pages;
 
 namespace DocSite.SiteModel
 {
@@ -16,6 +17,6 @@ namespace DocSite.SiteModel
 
         void AddMembersToDictionary(IDictionary<string, IDocModel> membersDictionary);
 
-        Page RenderPage(DocSiteModel context, IRenderer renderer);
+        Page BuildPage(DocSiteModel context);
     }
 }
