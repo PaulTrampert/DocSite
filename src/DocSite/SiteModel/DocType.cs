@@ -41,21 +41,37 @@ namespace DocSite.SiteModel
         {
             if (memberDetails == null) throw new ArgumentNullException(nameof(memberDetails));
             if (otherMembers == null) throw new ArgumentNullException(nameof(otherMembers));
-            if (memberDetails.Type != MemberType.Type) throw new ArgumentException($"{nameof(memberDetails)} must be {MemberType.Type}", nameof(memberDetails));
+            if (memberDetails.Type != MemberType.Type)
+                throw new ArgumentException($"{nameof(memberDetails)} must be {MemberType.Type}", nameof(memberDetails));
             Parent = parent;
             MemberDetails = memberDetails;
-            Constructors = otherMembers.Where(m => m.Type == MemberType.Method && m.ParentMember == Name && m.LocalName.StartsWith("#ctor")).Select(m => new DocConstructor(m, this));
-            Properties = otherMembers.Where(m => m.Type == MemberType.Property && m.ParentMember == Name).Select(m => new DocProperty(m, this));
-            Methods = otherMembers.Where(m => m.Type == MemberType.Method && m.ParentMember == Name && !m.LocalName.StartsWith("#ctor")).Select(m => new DocMethod(m, this));
-            Fields = otherMembers.Where(m => m.Type == MemberType.Field && m.ParentMember == Name).Select(m => new DocField(m, this));
-            Events = otherMembers.Where(m => m.Type == MemberType.Event && m.ParentMember == Name).Select(m => new DocEvent(m, this));
-            Types = otherMembers.Where(m => m.Type == MemberType.Type && m.ParentMember == Name).Select(m => new DocType(m, otherMembers, this));
+            Constructors =
+                otherMembers.Where(
+                    m => m.Type == MemberType.Method && m.ParentMember == Name && m.LocalName.StartsWith("#ctor"))
+                    .Select(m => new DocConstructor(m, this));
+            Properties =
+                otherMembers.Where(m => m.Type == MemberType.Property && m.ParentMember == Name)
+                    .Select(m => new DocProperty(m, this));
+            Methods =
+                otherMembers.Where(
+                    m => m.Type == MemberType.Method && m.ParentMember == Name && !m.LocalName.StartsWith("#ctor"))
+                    .Select(m => new DocMethod(m, this));
+            Fields =
+                otherMembers.Where(m => m.Type == MemberType.Field && m.ParentMember == Name)
+                    .Select(m => new DocField(m, this));
+            Events =
+                otherMembers.Where(m => m.Type == MemberType.Event && m.ParentMember == Name)
+                    .Select(m => new DocEvent(m, this));
+            Types =
+                otherMembers.Where(m => m.Type == MemberType.Type && m.ParentMember == Name)
+                    .Select(m => new DocType(m, otherMembers, this));
         }
 
         public void AddMembersToDictionary(IDictionary<string, IDocModel> membersDictionary)
         {
             if (membersDictionary == null) throw new ArgumentNullException(nameof(membersDictionary));
-            var members = Constructors.Cast<IDocModel>().Union(Properties).Union(Methods).Union(Fields).Union(Events).Union(Types);
+            var members =
+                Constructors.Cast<IDocModel>().Union(Properties).Union(Methods).Union(Fields).Union(Events).Union(Types);
             foreach (var member in members)
             {
                 member.AddMembersToDictionary(membersDictionary);
@@ -65,7 +81,82 @@ namespace DocSite.SiteModel
 
         public Page BuildPage(DocSiteModel context)
         {
-            throw new NotImplementedException();
+            var sections = new List<IRenderable>();
+            var page = new Page
+            {
+                AssemblyName = context.AssemblyName,
+                Name = Name,
+                Title = MemberDetails.LocalName,
+                Sections = sections
+            };
+            AddTypeParams(sections);
+            AddSummary(sections);
+            AddRemarks(sections);
+            AddExample(sections);
+
+            return page;
+        }
+
+        private void AddExample(List<IRenderable> sections)
+        {
+            if (Example != null)
+            {
+                sections.Add(new Section
+                {
+                    Title = "Example",
+                    Body = Example.ChildNodes.Cast<XmlNode>()
+                });
+            }
+        }
+
+        private void AddRemarks(List<IRenderable> sections)
+        {
+            if (Remarks != null)
+            {
+                sections.Add(new Section
+                {
+                    Title = "Remarks",
+                    Body = Remarks.ChildNodes.Cast<XmlNode>()
+                });
+            }
+        }
+
+        private void AddSummary(List<IRenderable> sections)
+        {
+            if (Summary != null)
+            {
+                sections.Add(new Section
+                {
+                    Title = "Summary",
+                    Body = Summary.ChildNodes.Cast<XmlNode>()
+                });
+            }
+        }
+
+        private void AddTypeParams(List<IRenderable> sections)
+        {
+            if (TypeParams.Any())
+            {
+                sections.Add(new TableSection
+                {
+                    Title = "Type Parameters",
+                    Headers = new[] {"Name", "Description"},
+                    Rows = TypeParams.Cast<XmlNode>().Select(tp => new TableRow
+                    {
+                        Columns = new[]
+                        {
+                            new TableData
+                            {
+                                Content = new XmlDocument {InnerText = tp.Attributes["name"].Value}
+                            },
+                            new TableData
+                            {
+                                Content = tp
+                            }
+                        }
+                    })
+                });
+            }
         }
     }
 }

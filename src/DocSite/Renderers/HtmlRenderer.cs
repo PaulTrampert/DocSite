@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using DocSite.SiteModel;
 using DocSite.TemplateLoaders;
 
 namespace DocSite.Renderers
@@ -12,10 +13,12 @@ namespace DocSite.Renderers
     public class HtmlRenderer : IRenderer
     {
         private ITemplateLoader _templateLoader;
+        private DocSiteModel _context;
 
-        public HtmlRenderer(ITemplateLoader templateLoader)
+        public HtmlRenderer(ITemplateLoader templateLoader, DocSiteModel context)
         {
             _templateLoader = templateLoader;
+            _context = context;
         }
 
         public string RenderPage(Page page)
@@ -81,7 +84,7 @@ namespace DocSite.Renderers
         {
             var templateName = $"{node.Name.Trim('#')}.html";
             var template = _templateLoader.LoadTemplate(templateName);
-            if (template == null) return node.InnerText.Trim();
+            if (template == null) template = "@Body";
 
             var body = new StringBuilder();
             if (node.HasChildNodes)
@@ -97,7 +100,10 @@ namespace DocSite.Renderers
             }
             if (node.Attributes?["cref"] != null)
             {
-                template = template.Replace("@Cref", $"{node.Attributes["cref"].Value}.html");
+                IDocModel refMember = _context.MembersDictionary[node.Attributes["cref"].Value];
+
+                template = template.Replace("@Cref", $"{refMember.MemberDetails.FullName}.html");
+                template = template.Replace("@CrefText", refMember.MemberDetails.LocalName);
             }
             return template.Replace("@Body", body.ToString());
         }
