@@ -9,6 +9,7 @@ namespace DocSite.SiteModel
     public class DocType : IDocModel
     {
         public MemberDetails MemberDetails { get; }
+        public IDocModel Parent { get; }
 
         public string Name => MemberDetails.FullName;
 
@@ -34,11 +35,12 @@ namespace DocSite.SiteModel
 
         public IEnumerable<XmlElement> SeeAlso => MemberDetails.DocXml.Where(xml => xml.Name == "seealso");
 
-        public DocType(MemberDetails memberDetails, IEnumerable<MemberDetails> otherMembers)
+        public DocType(MemberDetails memberDetails, IEnumerable<MemberDetails> otherMembers, IDocModel parent = null)
         {
             if (memberDetails == null) throw new ArgumentNullException(nameof(memberDetails));
             if (otherMembers == null) throw new ArgumentNullException(nameof(otherMembers));
             if (memberDetails.Type != MemberType.Type) throw new ArgumentException($"{nameof(memberDetails)} must be {MemberType.Type}", nameof(memberDetails));
+            Parent = parent;
             MemberDetails = memberDetails;
             Constructors = otherMembers.Where(m => m.Type == MemberType.Method && m.ParentMember == Name && m.LocalName.StartsWith("#ctor")).Select(m => new DocConstructor(m));
             Properties = otherMembers.Where(m => m.Type == MemberType.Property && m.ParentMember == Name).Select(m => new DocProperty(m));

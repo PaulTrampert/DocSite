@@ -9,6 +9,7 @@ namespace DocSite.SiteModel
     public class DocNamespace : IDocModel
     {
         public MemberDetails MemberDetails { get; }
+        public IDocModel Parent { get; }
 
         public string Name => MemberDetails.FullName;
 
