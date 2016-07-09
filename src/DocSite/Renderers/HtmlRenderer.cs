@@ -13,6 +13,11 @@ namespace DocSite.Renderers
     {
         private ITemplateLoader _templateLoader;
 
+        public HtmlRenderer(ITemplateLoader templateLoader)
+        {
+            _templateLoader = templateLoader;
+        }
+
         public string RenderPage(Page page)
         {
             var templateName = "Page.html";
@@ -24,7 +29,7 @@ namespace DocSite.Renderers
             var body = new StringBuilder();
             foreach (var section in page.Sections)
             {
-                body.Append(RenderSection(section));
+                body.Append(section.RenderWith(this));
             }
             return template.Replace("@Body", body.ToString());
         }

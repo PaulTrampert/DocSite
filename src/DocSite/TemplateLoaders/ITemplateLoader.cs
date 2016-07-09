@@ -1,6 +1,6 @@
 namespace DocSite.TemplateLoaders
 {
-    internal interface ITemplateLoader
+    public interface ITemplateLoader
     {
         string LoadTemplate(string name);
     }

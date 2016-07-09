@@ -14,7 +14,7 @@ namespace DocSite.Pages
 
         public string Title { get; set; }
 
-        public IEnumerable<Section> Sections { get; set; }
+        public IEnumerable<IRenderable> Sections { get; set; }
         public string RenderWith(IRenderer renderer)
         {
             return renderer.RenderPage(this);
