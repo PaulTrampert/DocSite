@@ -32,7 +32,7 @@ namespace DocSite.SiteModel
 
         public IEnumerable<DocType> Types { get; set; }
 
-        public IEnumerable<XmlElement> SeeAlso => MemberDetails.DocXml.Where(xml => xml.Name == "seeAlso");
+        public IEnumerable<XmlElement> SeeAlso => MemberDetails.DocXml.Where(xml => xml.Name == "seealso");
 
         public DocType(MemberDetails memberDetails, IEnumerable<MemberDetails> otherMembers)
         {

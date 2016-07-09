@@ -22,6 +22,8 @@ namespace DocSite.SiteModel
 
         public XmlElement Value => MemberDetails.DocXml.SingleOrDefault(xml => xml.Name == "value");
 
+        public IEnumerable<XmlElement> Exceptions => MemberDetails.DocXml.Where(xml => xml.Name == "exception");
+
         public IEnumerable<XmlElement> SeeAlso => MemberDetails.DocXml.Where(xml => xml.Name == "seealso");
 
         public DocProperty(MemberDetails memberDetails)
