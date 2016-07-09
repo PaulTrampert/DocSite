@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/bootstrap-treeview.min.css"/>
     <style type="text/css">
         body { padding-top: 50px; }
 
@@ -17,123 +17,31 @@
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">@AssemblyName</a>
         </div>
     </div>
 </nav>
-
-<div class="container">
-    @Body
-</div>
-<div class="row">
-    <div class="span3">
-        <div class="well">
-            <div>
-                <ul class="nav nav-list">
-                    <li>
-                        <label class="tree-toggle nav-header">Bootstrap</label>
-                        <ul class="nav nav-list tree">
-                            <li>
-                                <a href="#">JavaScript</a>
-                            </li>
-                            <li>
-                                <a href="#">CSS</a>
-                            </li>
-                            <li>
-                                <label class="tree-toggle nav-header">Buttons</label>
-                                <ul class="nav nav-list tree">
-                                    <li>
-                                        <a href="#">Colors</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Sizes</a>
-                                    </li>
-                                    <li>
-                                        <label class="tree-toggle nav-header">Forms</label>
-                                        <ul class="nav nav-list tree">
-                                            <li>
-                                                <a href="#">Horizontal</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Vertical</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <label class="tree-toggle nav-header">Responsive</label>
-                        <ul class="nav nav-list tree">
-                            <li>
-                                <a href="#">Overview</a>
-                            </li>
-                            <li>
-                                <a href="#">CSS</a>
-                            </li>
-                            <li>
-                                <label class="tree-toggle nav-header">Media Queries</label>
-                                <ul class="nav nav-list tree">
-                                    <li>
-                                        <a href="#">Text</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Images</a>
-                                    </li>
-                                    <li>
-                                        <label class="tree-toggle nav-header">Mobile Devices</label>
-                                        <ul class="nav nav-list tree">
-                                            <li>
-                                                <a href="#">iPhone</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Samsung</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <label class="tree-toggle nav-header">Coding</label>
-                                <ul class="nav nav-list tree">
-                                    <li>
-                                        <a href="#">JavaScript</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">jQuery</a>
-                                    </li>
-                                    <li>
-                                        <label class="tree-toggle nav-header">HTML DOM</label>
-                                        <ul class="nav nav-list tree">
-                                            <li>
-                                                <a href="#">DOM Elements</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Recursive</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+<div class="container-fluid" style="margin-top: 30px;">
+    <div class="row">
+        <div class="col-md-4" role="complementary">
+            <nav class="hidden-print hidden-xs hidden-sm affix">
+                <ul id="navTree" class="nav"></ul>
+            </nav>
+        </div>
+        <div class="col-md-8" role="main">
+            @Body
         </div>
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="scripts/bootstrap-treeview.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('label.tree-toggler').click(function () {
-            $(this).parent().children('ul.tree').toggle(300);
-        });
-        $('label.tree-toggler').parent().children('ul.tree').toggle(1000);
+    $(function() {
+        var navData = @NavTree;
+        $("#navTree").treeview({ data: navData });
     });
 </script>
 </body>
