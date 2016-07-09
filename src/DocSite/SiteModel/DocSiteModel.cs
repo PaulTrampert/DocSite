@@ -10,7 +10,7 @@ namespace DocSite.SiteModel
     {
         public string AssemblyName { get; set; }
 
-        public IEnumerable<Namespace> Namespaces { get; set; }
+        public IEnumerable<DocNamespace> Namespaces { get; set; }
 
         public DocSiteModel(DocXmlModel xmlModel)
         {
@@ -22,7 +22,7 @@ namespace DocSite.SiteModel
                 if (!xmlModel.Members.Any(m => m.FullName == parentTypeMapping.Key))
                     namespaces.Add(parentTypeMapping.Key);
             }
-            Namespaces = namespaces.Distinct().Select(n => new Namespace(new MemberDetails {Id = $"N:{n}"}, xmlModel.Members));
+            Namespaces = namespaces.Distinct().Select(n => new DocNamespace(new MemberDetails {Id = $"N:{n}"}, xmlModel.Members));
         }
     }
 }

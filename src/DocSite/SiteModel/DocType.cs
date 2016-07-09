@@ -37,6 +37,7 @@ namespace DocSite.SiteModel
         public DocType(MemberDetails memberDetails, IEnumerable<MemberDetails> otherMembers)
         {
             if (memberDetails == null) throw new ArgumentNullException(nameof(memberDetails));
+            if (otherMembers == null) throw new ArgumentNullException(nameof(otherMembers));
             if (memberDetails.Type != MemberType.Type) throw new ArgumentException($"{nameof(memberDetails)} must be {MemberType.Type}", nameof(memberDetails));
             MemberDetails = memberDetails;
             Constructors = otherMembers.Where(m => m.Type == MemberType.Method && m.ParentMember == Name && m.LocalName.StartsWith("#ctor")).Select(m => new DocConstructor(m));
