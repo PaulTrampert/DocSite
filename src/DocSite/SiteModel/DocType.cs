@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using DocSite.Xml;
 
 namespace DocSite.SiteModel
@@ -10,6 +11,14 @@ namespace DocSite.SiteModel
         public MemberDetails MemberDetails { get; }
 
         public string Name => MemberDetails.FullName;
+
+        public XmlElement Summary => MemberDetails.DocXml.SingleOrDefault(xml => xml.Name == "summary");
+
+        public XmlElement Remarks => MemberDetails.DocXml.SingleOrDefault(xml => xml.Name == "remarks");
+
+        public XmlElement Example => MemberDetails.DocXml.SingleOrDefault(xml => xml.Name == "example");
+
+        public IEnumerable<XmlElement> TypeParams => MemberDetails.DocXml.Where(xml => xml.Name == "typeparam");
 
         public IEnumerable<DocConstructor> Constructors { get; set; }
 
@@ -22,6 +31,8 @@ namespace DocSite.SiteModel
         public IEnumerable<DocEvent> Events { get; set; }
 
         public IEnumerable<DocType> Types { get; set; }
+
+        public IEnumerable<XmlElement> SeeAlso => MemberDetails.DocXml.Where(xml => xml.Name == "seeAlso");
 
         public DocType(MemberDetails memberDetails, IEnumerable<MemberDetails> otherMembers)
         {
