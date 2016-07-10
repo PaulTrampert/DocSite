@@ -100,10 +100,7 @@ namespace DocSite.Renderers
             var body = new StringBuilder();
             if (node.HasChildNodes)
             {
-                for (int i = 0; i < node.ChildNodes.Count; i++)
-                {
-                    body.Append(RenderNode(node.ChildNodes[i]));
-                }
+                body.Append(RenderNodes(node.ChildNodes.Cast<XmlNode>()));
             }
             else
             {

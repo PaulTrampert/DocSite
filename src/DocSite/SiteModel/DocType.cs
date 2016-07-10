@@ -82,67 +82,128 @@ namespace DocSite.SiteModel
         public Page BuildPage(DocSiteModel context)
         {
             var sections = new List<IRenderable>();
-            var page = new Page
+            MemberDetails.AddCommonSections(sections);
+            AddConstructors(sections);
+            AddFields(sections);
+            AddProperties(sections);
+            AddMethods(sections);
+            AddEvents(sections);
+            AddTypes(sections);
+            return new Page
             {
                 AssemblyName = context.AssemblyName,
                 Name = Name,
                 Title = MemberDetails.LocalName,
                 Sections = sections
             };
-            AddTypeParams(sections);
-            AddSummary(sections);
-            AddRemarks(sections);
-            AddExample(sections);
-
-            return page;
         }
 
-        private void AddExample(List<IRenderable> sections)
+        private void AddConstructors(IList<IRenderable> sections)
         {
-            if (Example != null)
+            if (Constructors.Any())
             {
-                sections.Add(new Section
+                sections.Add(new TableSection
                 {
-                    Title = "Example",
-                    Body = Example.ChildNodes.Cast<XmlNode>()
+                    Title = "Constructors",
+                    Headers = DocConstructor.GetTableHeaders(),
+                    Order = 10,
+                    Rows = Constructors.Select(c => c.GetTableRow())
                 });
             }
         }
 
-        private void AddRemarks(List<IRenderable> sections)
+        private void AddFields(IList<IRenderable> sections)
         {
-            if (Remarks != null)
+            if (Constructors.Any())
             {
-                sections.Add(new Section
+                sections.Add(new TableSection
                 {
-                    Title = "Remarks",
-                    Body = Remarks.ChildNodes.Cast<XmlNode>()
+                    Title = "Fields",
+                    Headers = DocField.GetTableHeaders(),
+                    Order = 11,
+                    Rows = Fields.Select(c => c.GetTableRow())
                 });
             }
         }
 
-        private void AddSummary(List<IRenderable> sections)
+        private void AddProperties(IList<IRenderable> sections)
         {
-            if (Summary != null)
+            if (Constructors.Any())
             {
-                sections.Add(new Section
+                sections.Add(new TableSection
                 {
-                    Title = "Summary",
-                    Body = Summary.ChildNodes.Cast<XmlNode>()
+                    Title = "Properties",
+                    Headers = DocProperty.GetTableHeaders(),
+                    Order = 12,
+                    Rows = Properties.Select(c => c.GetTableRow())
                 });
             }
         }
 
-        private void AddTypeParams(List<IRenderable> sections)
+        private void AddMethods(IList<IRenderable> sections)
         {
-            if (TypeParams.Any())
+            if (Constructors.Any())
             {
-                sections.Add(new DefinitionsSection()
+                sections.Add(new TableSection
                 {
-                    Title = "Type Parameters",
-                    Definitions = TypeParams
+                    Title = "Methods",
+                    Headers = DocMethod.GetTableHeaders(),
+                    Order = 13,
+                    Rows = Methods.Select(c => c.GetTableRow())
                 });
             }
+        }
+
+        private void AddEvents(IList<IRenderable> sections)
+        {
+            if (Constructors.Any())
+            {
+                sections.Add(new TableSection
+                {
+                    Title = "Events",
+                    Headers = DocEvent.GetTableHeaders(),
+                    Order = 14,
+                    Rows = Events.Select(c => c.GetTableRow())
+                });
+            }
+        }
+
+        private void AddTypes(IList<IRenderable> sections)
+        {
+            if (Constructors.Any())
+            {
+                sections.Add(new TableSection
+                {
+                    Title = "Types",
+                    Headers = DocType.GetTableHeaders(),
+                    Order = 15,
+                    Rows = Types.Select(c => c.GetTableRow())
+                });
+            }
+        }
+
+        public static IEnumerable<string> GetTableHeaders()
+        {
+            return new[] {"Name", "Description"};
+        }
+
+        public TableRow GetTableRow()
+        {
+            return new TableRow
+            {
+                Columns = new[]
+                {
+                    new TableData
+                    {
+                        Link = MemberDetails.FileId,
+                        Content = new XmlDocument {InnerText = MemberDetails.LocalName}
+                    },
+                    new TableData
+                    {
+                        Content = MemberDetails.Summary
+                    }
+                }
+            };
         }
     }
 }

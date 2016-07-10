@@ -13,21 +13,7 @@ namespace DocSite.SiteModel
         public MemberDetails MemberDetails { get; }
         public IDocModel Parent { get; }
 
-        public XmlElement Summary => MemberDetails.DocXml.SingleOrDefault(xml => xml.Name == "summary");
-
-        public XmlElement Example => MemberDetails.DocXml.SingleOrDefault(xml => xml.Name == "example");
-
-        public XmlElement Permission => MemberDetails.DocXml.SingleOrDefault(xml => xml.Name == "permission");
-
-        public XmlElement Remarks => MemberDetails.DocXml.SingleOrDefault(xml => xml.Name == "remarks");
-
-        public IEnumerable<XmlElement> Params => MemberDetails.DocXml.Where(xml => xml.Name == "param");
-
-        public IEnumerable<XmlElement> TypeParams => MemberDetails.DocXml.Where(xml => xml.Name == "typeparam");
-
-        public IEnumerable<XmlElement> Exceptions => MemberDetails.DocXml.Where(xml => xml.Name == "exception");
-
-        public IEnumerable<XmlElement> SeeAlso => MemberDetails.DocXml.Where(xml => xml.Name == "seealso");
+        private string Title => MemberDetails.LocalName.Replace("#ctor", Parent.MemberDetails.LocalName);
 
         public DocConstructor(MemberDetails memberDetails, IDocModel parent = null)
         {
@@ -46,18 +32,37 @@ namespace DocSite.SiteModel
 
         public Page BuildPage(DocSiteModel context)
         {
+            var sections = new List<IRenderable>();
+            MemberDetails.AddCommonSections(sections);
             return new Page
             {
                 AssemblyName = context.AssemblyName,
-                Name = MemberDetails.Id,
-                Title = MemberDetails.LocalName,
-                Sections = new []
+                Name = MemberDetails.FileId,
+                Title = Title,
+                Sections = sections
+            };
+        }
+
+        public static IEnumerable<string> GetTableHeaders()
+        {
+            return new[] {"Name", "Description"};
+        }
+
+        public TableRow GetTableRow()
+        {
+            return new TableRow
+            {
+                Columns = new[]
                 {
-                    new Section
+                    new TableData
                     {
-                        Title = "Summary",
-                        Body = Summary.ChildNodes.Cast<XmlNode>()
-                    }, 
+                        Link = MemberDetails.FileId,
+                        Content = new XmlDocument {InnerText = Title}
+                    },
+                    new TableData
+                    {
+                        Content = MemberDetails.Summary
+                    }
                 }
             };
         }

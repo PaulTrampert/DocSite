@@ -13,22 +13,6 @@ namespace DocSite.SiteModel
         public MemberDetails MemberDetails { get; }
         public IDocModel Parent { get; }
 
-        public XmlElement Summary => MemberDetails.DocXml.SingleOrDefault(xml => xml.Name == "summary");
-
-        public XmlElement Example => MemberDetails.DocXml.SingleOrDefault(xml => xml.Name == "example");
-
-        public XmlElement Permission => MemberDetails.DocXml.SingleOrDefault(xml => xml.Name == "permission");
-
-        public XmlElement Remarks => MemberDetails.DocXml.SingleOrDefault(xml => xml.Name == "remarks");
-
-        public IEnumerable<XmlElement> Params => MemberDetails.DocXml.Where(xml => xml.Name == "param");
-
-        public IEnumerable<XmlElement> TypeParams => MemberDetails.DocXml.Where(xml => xml.Name == "typeparam");
-
-        public IEnumerable<XmlElement> Exceptions => MemberDetails.DocXml.Where(xml => xml.Name == "exception");
-
-        public IEnumerable<XmlElement> SeeAlso => MemberDetails.DocXml.Where(xml => xml.Name == "seealso");
-
         public DocEvent(MemberDetails memberDetails, IDocModel parent = null)
         {
             if (memberDetails == null) throw new ArgumentNullException(nameof(memberDetails));
@@ -45,7 +29,39 @@ namespace DocSite.SiteModel
 
         public Page BuildPage(DocSiteModel context)
         {
-            throw new NotImplementedException();
+            var sections = new List<IRenderable>();
+            MemberDetails.AddCommonSections(sections);
+            return new Page
+            {
+                AssemblyName = context.AssemblyName,
+                Name = MemberDetails.FileId,
+                Title = MemberDetails.LocalName,
+                Sections = sections
+            };
+        }
+
+        public static IEnumerable<string> GetTableHeaders()
+        {
+            return new[] { "Name", "Description" };
+        }
+
+        public TableRow GetTableRow()
+        {
+            return new TableRow
+            {
+                Columns = new[]
+                {
+                    new TableData
+                    {
+                        Link = MemberDetails.FileId,
+                        Content = new XmlDocument {InnerText = MemberDetails.LocalName}
+                    },
+                    new TableData
+                    {
+                        Content = MemberDetails.Summary
+                    }
+                }
+            };
         }
     }
 }

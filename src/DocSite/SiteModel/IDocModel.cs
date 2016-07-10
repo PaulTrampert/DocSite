@@ -18,5 +18,7 @@ namespace DocSite.SiteModel
         void AddMembersToDictionary(IDictionary<string, IDocModel> membersDictionary);
 
         Page BuildPage(DocSiteModel context);
+
+        TableRow GetTableRow();
     }
 }

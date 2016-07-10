@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 using DocSite.Renderers;
 using DocSite.Xml;
 using DocSite.Pages;
@@ -38,7 +39,50 @@ namespace DocSite.SiteModel
 
         public Page BuildPage(DocSiteModel context)
         {
-            throw new NotImplementedException();
+            var sections = new List<IRenderable>();
+            MemberDetails.AddCommonSections(sections);
+            AddTypes(sections);
+            return new Page
+            {
+                AssemblyName = context.AssemblyName,
+                Name = MemberDetails.FileId,
+                Title = Name,
+                Sections = sections
+            };
+        }
+
+        public static IEnumerable<string> GetTableHeaders()
+        {
+            return new[] {"Name"};
+        }
+
+        public TableRow GetTableRow()
+        {
+            return new TableRow
+            {
+                Columns = new[]
+                {
+                    new TableData
+                    {
+                        Link = MemberDetails.FileId,
+                        Content = new XmlDocument {InnerText = MemberDetails.FullName}
+                    }
+                }
+            };
+        }
+
+        public void AddTypes(IList<IRenderable> sections)
+        {
+            if (Types.Any())
+            {
+                sections.Add(new TableSection
+                {
+                    Title = "Types",
+                    Headers = DocType.GetTableHeaders(),
+                    Order = 10,
+                    Rows = Types.Select(t => t.GetTableRow())
+                });
+            }
         }
     }
 }

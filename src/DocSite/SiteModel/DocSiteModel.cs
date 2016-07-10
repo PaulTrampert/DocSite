@@ -68,6 +68,11 @@ namespace DocSite.SiteModel
             };
         }
 
+        public TableRow GetTableRow()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Page> BuildPages()
         {
             foreach (var member in MembersDictionary)

@@ -15,6 +15,7 @@ namespace DocSite.Pages
         public IEnumerable<string> Headers { get; set; }
 
         public IEnumerable<TableRow> Rows { get; set; }
+
         public string RenderWith(IRenderer renderer)
         {
             return renderer.RenderTableSection(this);
