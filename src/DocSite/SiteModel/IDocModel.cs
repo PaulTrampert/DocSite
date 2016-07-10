@@ -50,5 +50,12 @@ namespace DocSite.SiteModel
         /// </summary>
         /// <returns>The resulting <see cref="TableRow"/></returns>
         TableRow GetTableRow();
+
+        /// <summary>
+        /// Builds a tree object.
+        /// </summary>
+        /// <param name="currentPage">The current page.</param>
+        /// <returns><see cref="Tree"/></returns>
+        Tree BuildTree(string currentPage);
     }
 }

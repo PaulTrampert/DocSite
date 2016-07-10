@@ -119,6 +119,22 @@ namespace DocSite.SiteModel
             yield return BuildPage(this);
         }
 
-        
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
+        /// <param name="currentPage"></param>
+        public Tree BuildTree(string currentPage)
+        {
+            return new Tree
+            {
+                Text = AssemblyName,
+                Href = "index",
+                Nodes = Namespaces.Select(n => n.BuildTree(currentPage)),
+                State = new TreeState
+                {
+                    Expanded = true
+                }
+            };
+        }
     }
 }

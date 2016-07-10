@@ -8,6 +8,9 @@ using System.Xml;
 using DocSite.SiteModel;
 using DocSite.TemplateLoaders;
 using DocSite.Xml;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace DocSite.Renderers
 {
@@ -21,6 +24,8 @@ namespace DocSite.Renderers
         private readonly ITemplateLoader _cssTemplateLoader;
         private readonly ITemplateLoader _scriptsTemplateLoader;
         private DocSiteModel _context;
+        private JsonSerializerSettings _jsonSettings;
+        private readonly ILogger _logger;
 
         /// <summary>
         /// Creates a new <see cref="HtmlRenderer"/>.
@@ -31,10 +36,18 @@ namespace DocSite.Renderers
         /// <param name="cssTemplateLoader"></param>
         public HtmlRenderer(ITemplateLoader htmlTemplateLoader, ITemplateLoader cssTemplateLoader, ITemplateLoader scriptsTemplateLoader, DocSiteModel context)
         {
+            _logger = Program.LoggerFactory.CreateLogger<HtmlRenderer>();
             _htmlTemplateLoader = htmlTemplateLoader;
             _cssTemplateLoader = cssTemplateLoader;
             _scriptsTemplateLoader = scriptsTemplateLoader;
             _context = context;
+
+            _jsonSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                NullValueHandling = NullValueHandling.Ignore,
+                ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+            };
         }
 
         /// <summary>
@@ -46,18 +59,50 @@ namespace DocSite.Renderers
         {
             var outPath = Path.GetFullPath(outDir);
             Directory.CreateDirectory(outPath);
-            foreach (var page in site.BuildPages())
+            var scriptsPath = Path.Combine(outPath, "scripts");
+            Directory.CreateDirectory(scriptsPath);
+            var cssPath = Path.Combine(outPath, "css");
+            Directory.CreateDirectory(cssPath);
+
+            _logger.LogInformation($"Rendering html to {outPath}");
+            _logger.LogInformation($"Rendering scripts to {scriptsPath}");
+            _logger.LogInformation($"Rendering css to {cssPath}");
+
+            foreach (var script in _scriptsTemplateLoader.LoadAllTemplates())
             {
-                using (var writer = new StreamWriter(File.OpenWrite(Path.Combine(outPath, $"{page.Name}.html"))))
+                File.WriteAllText(Path.Combine(scriptsPath, script.Key), script.Value);
+                _logger.LogInformation($"Rendered script: {script.Key}");
+            }
+
+            foreach (var css in _cssTemplateLoader.LoadAllTemplates())
+            {
+                File.WriteAllText(Path.Combine(cssPath, css.Key), css.Value);
+                _logger.LogInformation($"Rendered css: {css.Key}");
+            }
+
+
+            var pages = site.BuildPages();
+            var pageCount = pages.Count();
+            var i = 1;
+            _logger.LogInformation($"{pageCount} pages will be rendered.");
+            foreach (var page in pages)
+            {
+                var tree = new [] {site.BuildTree(page.Name)};
+                using (var writer = new StreamWriter(File.Create(Path.Combine(outPath, $"{page.Name}.html"))))
                 {
-                    RenderPageTo(page, writer);
+                    tree.Single().SetHrefExtension("html");
+                    RenderPageTo(page, tree, writer);
+                    _logger.LogInformation($"Rendered page {i}/{pageCount}");
                 }
+                i++;
             }
         }
 
-        private void RenderPageTo(Page page, TextWriter writer)
+        private void RenderPageTo(Page page, IEnumerable<Tree> tree, TextWriter writer)
         {
-            writer.Write(page.RenderWith(this));
+            var render = page.RenderWith(this);
+            render = render.Replace("@NavJson", JsonConvert.SerializeObject(tree, _jsonSettings));
+            writer.Write(render);
         }
 
         /// <summary>

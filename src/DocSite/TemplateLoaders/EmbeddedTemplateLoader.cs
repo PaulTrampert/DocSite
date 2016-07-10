@@ -54,9 +54,10 @@ namespace DocSite.TemplateLoaders
             var result = new Dictionary<string, string>();
             foreach (var name in templateNames.Where(tn => tn.StartsWith(_templateNamespace)))
             {
+                var scopedName = name.Replace($"{_templateNamespace}.", "");
                 using (var reader = new StreamReader(_assembly.GetManifestResourceStream(name)))
                 {
-                    result.Add(name, reader.ReadToEnd());
+                    result.Add(scopedName, reader.ReadToEnd());
                 }
             }
             return result;

@@ -1,8 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using DocSite.Renderers;
 using DocSite.SiteModel;
 using DocSite.TemplateLoaders;
 using DocSite.Xml;
+using Microsoft.Extensions.Logging;
 
 namespace DocSite
 {
@@ -12,14 +14,9 @@ namespace DocSite
     public class Program
     {
         /// <summary>
-        /// Some Generic method.
+        /// Logger factory to be used throughout the program.
         /// </summary>
-        /// <typeparam name="T">Type of the argument.</typeparam>
-        /// <param name="arg">The argument</param>
-        public static void GenericMethod<T>(T arg)
-        {
-            
-        }
+        public static readonly ILoggerFactory LoggerFactory = new LoggerFactory().AddConsole();
 
         /// <summary>
         /// Entry point of DocSite
@@ -27,16 +24,26 @@ namespace DocSite
         /// <param name="args">Command line arguments.</param>
         public static void Main(string[] args)
         {
-            var xmlPath = Path.GetFullPath(args[0]);
-            var outDir = Path.GetFullPath(args[1]);
-            var builder = new ModelBuilder();
-            var xmlModel = builder.BuildModelFromXml(xmlPath);
-            var docModel = new DocSiteModel(xmlModel);
-            var htmlTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html");
-            var cssTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html.css");
-            var scriptsTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html.scripts");
-            var renderer = new HtmlRenderer(htmlTemplateLoader, cssTemplateLoader, scriptsTemplateLoader, docModel);
-            renderer.RenderSite(docModel, outDir);
+            var logger = LoggerFactory.CreateLogger<Program>();
+            try
+            {
+                var xmlPath = Path.GetFullPath(args[0]);
+                var outDir = Path.GetFullPath(args[1]);
+                var builder = new ModelBuilder();
+                var xmlModel = builder.BuildModelFromXml(xmlPath);
+                var docModel = new DocSiteModel(xmlModel);
+                logger.LogInformation($"Documentation model built from {xmlPath}");
+                var htmlTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html");
+                var cssTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html.css");
+                var scriptsTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html.scripts");
+                var renderer = new HtmlRenderer(htmlTemplateLoader, cssTemplateLoader, scriptsTemplateLoader, docModel);
+                renderer.RenderSite(docModel, outDir);
+                logger.LogInformation($"Site rendered to {outDir}");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(default(EventId), e, e.Message);
+            }
         }
     }
 }

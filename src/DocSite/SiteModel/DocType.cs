@@ -254,5 +254,31 @@ namespace DocSite.SiteModel
                 }
             };
         }
+
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
+        /// <param name="currentPage"></param>
+        public Tree BuildTree(string currentPage)
+        {
+            var nodes = Constructors.Select(c => c.BuildTree(currentPage))
+                .Union(Fields.Select(f => f.BuildTree(currentPage)))
+                .Union(Properties.Select(p => p.BuildTree(currentPage)))
+                .Union(Methods.Select(m => m.BuildTree(currentPage)))
+                .Union(Events.Select(m => m.BuildTree(currentPage)))
+                .Union(Types.Select(m => m.BuildTree(currentPage)));
+            
+            return new Tree
+            {
+                Text = MemberDetails.LocalName,
+                Href = MemberDetails.FileId,
+                Nodes = nodes,
+                State = new TreeState
+                {
+                    Expanded = nodes.Any(n => n.AnySelected()),
+                    Selected = currentPage == MemberDetails.FileId
+                }
+            };
+        }
     }
 }

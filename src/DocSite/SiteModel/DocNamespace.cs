@@ -108,6 +108,26 @@ namespace DocSite.SiteModel
             };
         }
 
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
+        /// <param name="currentPage"></param>
+        public Tree BuildTree(string currentPage)
+        {
+            var nodes = Types.Select(t => t.BuildTree(currentPage));
+            return new Tree
+            {
+                Text = MemberDetails.LocalName,
+                Href = MemberDetails.FileId,
+                Nodes = nodes,
+                State = new TreeState
+                {
+                    Expanded = nodes.Any(n => n.AnySelected()),
+                    Selected = currentPage == MemberDetails.FileId
+                }
+            };
+        }
+
         private void AddTypes(IList<ISection> sections)
         {
             if (Types.Any())
