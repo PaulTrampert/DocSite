@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using DocSite.SiteModel;
 using DocSite.TemplateLoaders;
+using DocSite.Xml;
 
 namespace DocSite.Renderers
 {
@@ -80,6 +81,16 @@ namespace DocSite.Renderers
                 .Replace("@Rows", rows.ToString());
         }
 
+        public string RenderNodes(IEnumerable<XmlNode> nodes)
+        {
+            var result = new StringBuilder();
+            foreach (var node in nodes)
+            {
+                result.Append(RenderNode(node));
+            }
+            return result.ToString();
+        }
+
         public string RenderNode(XmlNode node)
         {
             var templateName = $"{node.Name.Trim('#')}.html";
@@ -100,12 +111,32 @@ namespace DocSite.Renderers
             }
             if (node.Attributes?["cref"] != null)
             {
-                IDocModel refMember = _context.MembersDictionary[node.Attributes["cref"].Value];
-
-                template = template.Replace("@Cref", $"{refMember.MemberDetails.FullName}.html");
-                template = template.Replace("@CrefText", refMember.MemberDetails.LocalName);
+                IDocModel refMember = null;
+                MemberDetails memberDetails = null;
+                var isProjectReference = _context.MembersDictionary.TryGetValue(node.Attributes["cref"].Value, out refMember);
+                if (!isProjectReference)
+                {
+                    memberDetails = new MemberDetails {Id = node.Attributes["cref"].Value};
+                    template = template.Replace("@Cref", "#");
+                    template = template.Replace("@CrefText", memberDetails.FullName);
+                }
+                else
+                {
+                    memberDetails = refMember.MemberDetails;
+                    template = template.Replace("@Cref", $"{memberDetails.FileId}.html");
+                    template = template.Replace("@CrefText", memberDetails.LocalName);
+                }
+            }
+            if (node.Attributes?["name"] != null)
+            {
+                template = template.Replace("@Name", node.Attributes["name"].Value);
             }
             return template.Replace("@Body", body.ToString());
+        }
+
+        public string RenderDefinitionsSection(DefinitionsSection section)
+        {
+            throw new NotImplementedException();
         }
     }
 

@@ -10,6 +10,8 @@ namespace DocSite.Pages
     {
         public string Title { get; set; }
 
+        public int Order { get; set; }
+
         public IEnumerable<string> Headers { get; set; }
 
         public IEnumerable<TableRow> Rows { get; set; }

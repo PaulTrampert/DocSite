@@ -137,24 +137,10 @@ namespace DocSite.SiteModel
         {
             if (TypeParams.Any())
             {
-                sections.Add(new TableSection
+                sections.Add(new DefinitionsSection()
                 {
                     Title = "Type Parameters",
-                    Headers = new[] {"Name", "Description"},
-                    Rows = TypeParams.Cast<XmlNode>().Select(tp => new TableRow
-                    {
-                        Columns = new[]
-                        {
-                            new TableData
-                            {
-                                Content = new XmlDocument {InnerText = tp.Attributes["name"].Value}
-                            },
-                            new TableData
-                            {
-                                Content = tp
-                            }
-                        }
-                    })
+                    Definitions = TypeParams
                 });
             }
         }

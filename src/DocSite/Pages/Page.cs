@@ -15,8 +15,12 @@ namespace DocSite.Pages
         public string Title { get; set; }
 
         public IEnumerable<IRenderable> Sections { get; set; }
+
+        public int Order { get; set; }
+
         public string RenderWith(IRenderer renderer)
         {
+            Sections = Sections.OrderBy(s => s.Order);
             return renderer.RenderPage(this);
         }
     }

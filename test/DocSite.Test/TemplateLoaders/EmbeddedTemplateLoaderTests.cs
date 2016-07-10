@@ -15,7 +15,9 @@ namespace DocSite.Test.TemplateLoaders
         [InlineData("DocSite.Templates.Html", "Page.html")]
         [InlineData("DocSite.Templates.Html", "para.html")]
         [InlineData("DocSite.Templates.Html", "Section.html")]
-        [InlineData("DocSite.Templates.Html", "text.html")]
+        [InlineData("DocSite.Templates.Html", "DefinitionsSection.html")]
+        [InlineData("DocSite.Templates.Html", "TableSection.html")]
+        [InlineData("DocSite.Templates.Html", "TableRow.html")]
         public void CanLoadTemplate(string templateNamespace, string templateName)
         {
             var loader = new EmbeddedTemplateLoader(templateNamespace);

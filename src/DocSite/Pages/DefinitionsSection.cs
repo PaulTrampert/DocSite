@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml;
 using DocSite.Renderers;
+using System.Xml;
 
 namespace DocSite.Pages
 {
-    public class Section : IRenderable
+    public class DefinitionsSection : IRenderable
     {
         public string Title { get; set; }
 
         public int Order { get; set; }
 
-        public IEnumerable<XmlNode> Body { get; set; }
+        public IEnumerable<XmlNode> Definitions { get; set; }
+
         public string RenderWith(IRenderer renderer)
         {
-            return renderer.RenderSection(this);
+            return renderer.RenderDefinitionsSection(this);
         }
     }
 }
