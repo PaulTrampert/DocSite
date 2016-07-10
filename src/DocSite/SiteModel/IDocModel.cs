@@ -55,7 +55,8 @@ namespace DocSite.SiteModel
         /// Builds a tree object.
         /// </summary>
         /// <param name="currentPage">The current page.</param>
+        /// <param name="hrefExtension">The extension to use for links.</param>
         /// <returns><see cref="Tree"/></returns>
-        Tree BuildTree(string currentPage);
+        Tree BuildTree(string currentPage, string hrefExtension);
     }
 }

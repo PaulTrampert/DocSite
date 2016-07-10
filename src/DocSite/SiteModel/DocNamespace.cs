@@ -112,13 +112,15 @@ namespace DocSite.SiteModel
         /// Inherited from <see cref="IDocModel"/>
         /// </summary>
         /// <param name="currentPage"></param>
-        public Tree BuildTree(string currentPage)
+        /// <param name="hrefExtension"></param>
+        public Tree BuildTree(string currentPage, string hrefExtension)
         {
-            var nodes = Types.Select(t => t.BuildTree(currentPage));
+            var nodes = Types.Select(t => t.BuildTree(currentPage, hrefExtension));
+            var href = MemberDetails.FileId + (hrefExtension != null ? $".{hrefExtension}" : "");
             return new Tree
             {
                 Text = MemberDetails.LocalName,
-                Href = MemberDetails.FileId,
+                Href = href,
                 Nodes = nodes,
                 State = new TreeState
                 {

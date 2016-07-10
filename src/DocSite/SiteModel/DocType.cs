@@ -259,19 +259,20 @@ namespace DocSite.SiteModel
         /// Inherited from <see cref="IDocModel"/>
         /// </summary>
         /// <param name="currentPage"></param>
-        public Tree BuildTree(string currentPage)
+        /// <param name="hrefExtension"></param>
+        public Tree BuildTree(string currentPage, string hrefExtension)
         {
-            var nodes = Constructors.Select(c => c.BuildTree(currentPage))
-                .Union(Fields.Select(f => f.BuildTree(currentPage)))
-                .Union(Properties.Select(p => p.BuildTree(currentPage)))
-                .Union(Methods.Select(m => m.BuildTree(currentPage)))
-                .Union(Events.Select(m => m.BuildTree(currentPage)))
-                .Union(Types.Select(m => m.BuildTree(currentPage)));
-            
+            var nodes = Constructors.Select(c => c.BuildTree(currentPage, hrefExtension))
+                .Union(Fields.Select(f => f.BuildTree(currentPage, hrefExtension)))
+                .Union(Properties.Select(p => p.BuildTree(currentPage, hrefExtension)))
+                .Union(Methods.Select(m => m.BuildTree(currentPage, hrefExtension)))
+                .Union(Events.Select(m => m.BuildTree(currentPage, hrefExtension)))
+                .Union(Types.Select(m => m.BuildTree(currentPage, hrefExtension)));
+            var href = MemberDetails.FileId + (hrefExtension != null ? $".{hrefExtension}" : "");
             return new Tree
             {
                 Text = MemberDetails.LocalName,
-                Href = MemberDetails.FileId,
+                Href = href,
                 Nodes = nodes,
                 State = new TreeState
                 {

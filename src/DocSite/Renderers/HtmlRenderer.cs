@@ -87,10 +87,9 @@ namespace DocSite.Renderers
             _logger.LogInformation($"{pageCount} pages will be rendered.");
             foreach (var page in pages)
             {
-                var tree = new [] {site.BuildTree(page.Name)};
+                var tree = new [] {site.BuildTree(page.Name, "html")};
                 using (var writer = new StreamWriter(File.Create(Path.Combine(outPath, $"{page.Name}.html"))))
                 {
-                    tree.Single().SetHrefExtension("html");
                     RenderPageTo(page, tree, writer);
                     _logger.LogInformation($"Rendered page {i}/{pageCount}");
                 }

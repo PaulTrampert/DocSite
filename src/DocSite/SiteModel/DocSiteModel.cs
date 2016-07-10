@@ -123,13 +123,15 @@ namespace DocSite.SiteModel
         /// Inherited from <see cref="IDocModel"/>
         /// </summary>
         /// <param name="currentPage"></param>
-        public Tree BuildTree(string currentPage)
+        /// <param name="hrefExtension"></param>
+        public Tree BuildTree(string currentPage, string hrefExtension)
         {
+            var href = "index" + (hrefExtension != null ? $".{hrefExtension}" : "");
             return new Tree
             {
                 Text = AssemblyName,
-                Href = "index",
-                Nodes = Namespaces.Select(n => n.BuildTree(currentPage)),
+                Href = href,
+                Nodes = Namespaces.Select(n => n.BuildTree(currentPage, hrefExtension)),
                 State = new TreeState
                 {
                     Expanded = true

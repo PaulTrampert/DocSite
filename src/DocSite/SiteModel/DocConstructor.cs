@@ -99,12 +99,13 @@ namespace DocSite.SiteModel
         /// <summary>
         /// Inherited from <see cref="IDocModel"/>
         /// </summary>
-        public Tree BuildTree(string currentPage)
+        public Tree BuildTree(string currentPage, string hrefExtension)
         {
+            var href = MemberDetails.FileId + (hrefExtension != null ? $".{hrefExtension}" : "");
             return new Tree
             {
                 Text = MemberDetails.LocalName,
-                Href = MemberDetails.FileId,
+                Href = href,
                 State = new TreeState
                 {
                     Selected = currentPage == MemberDetails.FileId

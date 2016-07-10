@@ -36,18 +36,5 @@ namespace DocSite.Pages
         {
             return State.Selected || (Nodes == null ? false : Nodes.Any(n => n.AnySelected()));
         }
-
-        /// <summary>
-        /// Sets the Href file extension in the tree. Useful for rendering.
-        /// </summary>
-        /// <param name="extension">File extension to set.</param>
-        public void SetHrefExtension(string extension)
-        {
-            Href = $"{Href}.{extension}";
-            foreach (var tree in Nodes ?? new List<Tree>())
-            {
-                tree.SetHrefExtension(extension);
-            }
-        }
     }
 }
