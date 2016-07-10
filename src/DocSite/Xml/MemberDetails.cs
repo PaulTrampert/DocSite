@@ -21,7 +21,7 @@ namespace DocSite.Xml
         /// <summary>
         /// Regex for parsing the <see cref="Id"/>
         /// </summary>
-        public const string IdRegex = @"^[NTFPME!]:(?<fullName>(?<namespace>([^\.\(]+\.)+)(?<localName>[^\(\.]+(\([^\)]+\))?))$";
+        public const string IdRegex = @"^[NTFPME!]:(?<fullName>(?<namespace>([^\.\(]+\.)+)?(?<localName>[^\(\.]+(\([^\)]+\))?))$";
 
         /// <summary>
         /// The Id of the member. Mapps to the name attribute in the xml document.

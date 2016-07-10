@@ -11,6 +11,7 @@ namespace DocSite.Test.Xml
     {
 
         [Theory]
+        [InlineData("N:DocSite", MemberType.Namespace, "DocSite", "DocSite", "", null, "TjpEb2NTaXRl")]
         [InlineData("N:DocSite.Test.Xml", MemberType.Namespace, "DocSite.Test.Xml", "Xml", "DocSite.Test", null, "TjpEb2NTaXRlLlRlc3QuWG1s")]
         [InlineData("T:DocSite.Test.Xml.MemberDetails", MemberType.Type, "DocSite.Test.Xml.MemberDetails", "MemberDetails", "DocSite.Test.Xml",null, "VDpEb2NTaXRlLlRlc3QuWG1sLk1lbWJlckRldGFpbHM")]
         [InlineData("M:DocSite.Test.Xml.MemberDetails.#ctor", MemberType.Method, "DocSite.Test.Xml.MemberDetails.#ctor", "#ctor", "DocSite.Test.Xml.MemberDetails", null, "TTpEb2NTaXRlLlRlc3QuWG1sLk1lbWJlckRldGFpbHMuI2N0b3I")]

@@ -82,7 +82,7 @@ namespace DocSite.SiteModel
         {
             return new Page
             {
-                Name = "index.html",
+                Name = "index",
                 AssemblyName = AssemblyName,
                 Title = AssemblyName,
                 Sections = new[]
