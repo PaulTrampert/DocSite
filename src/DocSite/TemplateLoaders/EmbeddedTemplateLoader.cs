@@ -44,5 +44,22 @@ namespace DocSite.TemplateLoaders
                 return null;
             }
         }
+
+        /// <summary>
+        /// Inherited from <see cref="ITemplateLoader"/>
+        /// </summary>
+        public IDictionary<string, string> LoadAllTemplates()
+        {
+            var templateNames = _assembly.GetManifestResourceNames();
+            var result = new Dictionary<string, string>();
+            foreach (var name in templateNames.Where(tn => tn.StartsWith(_templateNamespace)))
+            {
+                using (var reader = new StreamReader(_assembly.GetManifestResourceStream(name)))
+                {
+                    result.Add(name, reader.ReadToEnd());
+                }
+            }
+            return result;
+        }
     }
 }

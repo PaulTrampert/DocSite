@@ -35,13 +35,8 @@ namespace DocSite
             var htmlTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html");
             var cssTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html.css");
             var scriptsTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html.scripts");
-            var renderer = new HtmlRenderer(htmlTemplateLoader, docModel);
-            Directory.CreateDirectory(outDir);
-            foreach (var page in docModel.BuildPages())
-            {
-                var outFile = Path.Combine(outDir, $"{page.Name}.html");
-                File.WriteAllText(outFile, page.RenderWith(renderer));
-            }
+            var renderer = new HtmlRenderer(htmlTemplateLoader, cssTemplateLoader, scriptsTemplateLoader, docModel);
+            renderer.RenderSite(docModel, outDir);
         }
     }
 }

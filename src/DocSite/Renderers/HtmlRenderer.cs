@@ -1,5 +1,6 @@
 ﻿using DocSite.Pages;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,18 +17,47 @@ namespace DocSite.Renderers
     /// <seealso cref="IRenderer"/>
     public class HtmlRenderer : IRenderer
     {
-        private ITemplateLoader _templateLoader;
+        private readonly ITemplateLoader _htmlTemplateLoader;
+        private readonly ITemplateLoader _cssTemplateLoader;
+        private readonly ITemplateLoader _scriptsTemplateLoader;
         private DocSiteModel _context;
 
         /// <summary>
         /// Creates a new <see cref="HtmlRenderer"/>.
         /// </summary>
-        /// <param name="templateLoader">The <see cref="ITemplateLoader"/> to use to find templates.</param>
+        /// <param name="htmlTemplateLoader">The <see cref="ITemplateLoader"/> to use to find templates.</param>
         /// <param name="context">The <see cref="DocSiteModel"/> that will be rendered.</param>
-        public HtmlRenderer(ITemplateLoader templateLoader, DocSiteModel context)
+        /// <param name="scriptsTemplateLoader"></param>
+        /// <param name="cssTemplateLoader"></param>
+        public HtmlRenderer(ITemplateLoader htmlTemplateLoader, ITemplateLoader cssTemplateLoader, ITemplateLoader scriptsTemplateLoader, DocSiteModel context)
         {
-            _templateLoader = templateLoader;
+            _htmlTemplateLoader = htmlTemplateLoader;
+            _cssTemplateLoader = cssTemplateLoader;
+            _scriptsTemplateLoader = scriptsTemplateLoader;
             _context = context;
+        }
+
+        /// <summary>
+        /// Inherited from <see cref="IRenderer"/>
+        /// </summary>
+        /// <param name="site"></param>
+        /// <param name="outDir"></param>
+        public void RenderSite(DocSiteModel site, string outDir)
+        {
+            var outPath = Path.GetFullPath(outDir);
+            Directory.CreateDirectory(outPath);
+            foreach (var page in site.BuildPages())
+            {
+                using (var writer = new StreamWriter(File.OpenWrite(Path.Combine(outPath, $"{page.Name}.html"))))
+                {
+                    RenderPageTo(page, writer);
+                }
+            }
+        }
+
+        private void RenderPageTo(Page page, TextWriter writer)
+        {
+            writer.Write(page.RenderWith(this));
         }
 
         /// <summary>
@@ -36,7 +66,7 @@ namespace DocSite.Renderers
         public string RenderPage(Page page)
         {
             var templateName = "Page.html";
-            var template = _templateLoader.LoadTemplate(templateName);
+            var template = _htmlTemplateLoader.LoadTemplate(templateName);
             if (template == null) throw new TemplateNotFoundException(templateName);
 
             template = template.Replace("@AssemblyName", page.AssemblyName);
@@ -55,7 +85,7 @@ namespace DocSite.Renderers
         public string RenderSection(Section section)
         {
             var templateName = "Section.html";
-            var template = _templateLoader.LoadTemplate(templateName);
+            var template = _htmlTemplateLoader.LoadTemplate(templateName);
             if (template == null) throw new TemplateNotFoundException(templateName);
 
             var body = new StringBuilder();
@@ -73,11 +103,11 @@ namespace DocSite.Renderers
         public string RenderTableSection(TableSection section)
         {
             var templateName = "TableSection.html";
-            var tableTemplate = _templateLoader.LoadTemplate(templateName);
+            var tableTemplate = _htmlTemplateLoader.LoadTemplate(templateName);
             if (tableTemplate == null) throw new TemplateNotFoundException(templateName);
 
             templateName = "TableRow.html";
-            var rowTemplate = _templateLoader.LoadTemplate(templateName);
+            var rowTemplate = _htmlTemplateLoader.LoadTemplate(templateName);
             if (rowTemplate == null) throw new TemplateNotFoundException(templateName);
 
             var headers = string.Join("", section.Headers.Select(h => $"<th>{h}</th>"));
@@ -114,7 +144,7 @@ namespace DocSite.Renderers
         public string RenderNode(XmlNode node)
         {
             var templateName = $"{node.Name.Trim('#')}.html";
-            var template = _templateLoader.LoadTemplate(templateName);
+            var template = _htmlTemplateLoader.LoadTemplate(templateName);
             if (template == null) template = "@Body";
 
             var body = new StringBuilder();
@@ -157,7 +187,7 @@ namespace DocSite.Renderers
         public string RenderDefinitionsSection(DefinitionsSection section)
         {
             var templateName = "DefinitionsSection.html";
-            var template = _templateLoader.LoadTemplate(templateName);
+            var template = _htmlTemplateLoader.LoadTemplate(templateName);
             if (template == null) throw new TemplateNotFoundException(templateName);
 
             var body = RenderNodes(section.Definitions);

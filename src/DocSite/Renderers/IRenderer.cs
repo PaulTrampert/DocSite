@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using DocSite.Pages;
+using DocSite.SiteModel;
 
 namespace DocSite.Renderers
 {
@@ -55,5 +56,12 @@ namespace DocSite.Renderers
         /// <param name="section">The <see cref="DefinitionsSection"/> to render.</param>
         /// <returns><see cref="String"/> - Returns the rendered string.</returns>
         string RenderDefinitionsSection(DefinitionsSection section);
+
+        /// <summary>
+        /// Render the <see cref="DocSiteModel"/> to <paramref name="outDir"/>.
+        /// </summary>
+        /// <param name="site">The site to render</param>
+        /// <param name="outDir">The output directory. Can be either relative or full path.</param>
+        void RenderSite(DocSiteModel site, string outDir);
     }
 }

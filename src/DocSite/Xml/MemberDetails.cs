@@ -36,7 +36,17 @@ namespace DocSite.Xml
         /// <value>Gets the <see cref="FileId"/></value>
         public string FileId
         {
-            get { return Convert.ToBase64String(Encoding.UTF8.GetBytes(Id)).Replace('+', '-').Replace('/', '_').TrimEnd('='); }
+            get
+            {
+                using (var md5 = MD5.Create())
+                {
+                    return
+                        Convert.ToBase64String(md5.ComputeHash(Encoding.UTF8.GetBytes(Id)))
+                            .Replace('+', '-')
+                            .Replace('/', '_')
+                            .TrimEnd('=');
+                }
+            }
         }
 
         /// <summary>

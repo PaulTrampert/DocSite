@@ -11,15 +11,15 @@ namespace DocSite.Test.Xml
     {
 
         [Theory]
-        [InlineData("N:DocSite", MemberType.Namespace, "DocSite", "DocSite", "", null, "TjpEb2NTaXRl")]
-        [InlineData("N:DocSite.Test.Xml", MemberType.Namespace, "DocSite.Test.Xml", "Xml", "DocSite.Test", null, "TjpEb2NTaXRlLlRlc3QuWG1s")]
-        [InlineData("T:DocSite.Test.Xml.MemberDetails", MemberType.Type, "DocSite.Test.Xml.MemberDetails", "MemberDetails", "DocSite.Test.Xml",null, "VDpEb2NTaXRlLlRlc3QuWG1sLk1lbWJlckRldGFpbHM")]
-        [InlineData("M:DocSite.Test.Xml.MemberDetails.#ctor", MemberType.Method, "DocSite.Test.Xml.MemberDetails.#ctor", "#ctor", "DocSite.Test.Xml.MemberDetails", null, "TTpEb2NTaXRlLlRlc3QuWG1sLk1lbWJlckRldGFpbHMuI2N0b3I")]
-        [InlineData("M:DocSite.Test.Xml.MemberDetails.#ctor(System.String[])", MemberType.Method, "DocSite.Test.Xml.MemberDetails.#ctor(System.String[])", "#ctor(System.String[])", "DocSite.Test.Xml.MemberDetails", null, "TTpEb2NTaXRlLlRlc3QuWG1sLk1lbWJlckRldGFpbHMuI2N0b3IoU3lzdGVtLlN0cmluZ1tdKQ")]
-        [InlineData("P:DocSite.Test.Xml.MemberDetails.Id", MemberType.Property, "DocSite.Test.Xml.MemberDetails.Id", "Id", "DocSite.Test.Xml.MemberDetails", null, "UDpEb2NTaXRlLlRlc3QuWG1sLk1lbWJlckRldGFpbHMuSWQ")]
-        [InlineData("F:DocSite.Test.Xml.MemberDetails.something", MemberType.Field, "DocSite.Test.Xml.MemberDetails.something", "something", "DocSite.Test.Xml.MemberDetails", null, "RjpEb2NTaXRlLlRlc3QuWG1sLk1lbWJlckRldGFpbHMuc29tZXRoaW5n")]
-        [InlineData("E:DocSite.Test.Xml.MemberDetails.OnEvent", MemberType.Event, "DocSite.Test.Xml.MemberDetails.OnEvent", "OnEvent", "DocSite.Test.Xml.MemberDetails", null, "RTpEb2NTaXRlLlRlc3QuWG1sLk1lbWJlckRldGFpbHMuT25FdmVudA")]
-        [InlineData("!:SomeErrorOccurred", MemberType.Error, null, null, null, "SomeErrorOccurred", "ITpTb21lRXJyb3JPY2N1cnJlZA")]
+        [InlineData("N:DocSite", MemberType.Namespace, "DocSite", "DocSite", "", null, "hcexorHs9vWX7Ik2G9qPkA")]
+        [InlineData("N:DocSite.Test.Xml", MemberType.Namespace, "DocSite.Test.Xml", "Xml", "DocSite.Test", null, "-AOlB97qwPZt9MI5xGo99g")]
+        [InlineData("T:DocSite.Test.Xml.MemberDetails", MemberType.Type, "DocSite.Test.Xml.MemberDetails", "MemberDetails", "DocSite.Test.Xml",null, "ilZpZn4v9jHEjsBXqYExnA")]
+        [InlineData("M:DocSite.Test.Xml.MemberDetails.#ctor", MemberType.Method, "DocSite.Test.Xml.MemberDetails.#ctor", "#ctor", "DocSite.Test.Xml.MemberDetails", null, "36c0TAth1HVG63ax6M952A")]
+        [InlineData("M:DocSite.Test.Xml.MemberDetails.#ctor(System.String[])", MemberType.Method, "DocSite.Test.Xml.MemberDetails.#ctor(System.String[])", "#ctor(System.String[])", "DocSite.Test.Xml.MemberDetails", null, "VmznZ280lKfXdyg91ocGJg")]
+        [InlineData("P:DocSite.Test.Xml.MemberDetails.Id", MemberType.Property, "DocSite.Test.Xml.MemberDetails.Id", "Id", "DocSite.Test.Xml.MemberDetails", null, "wIldM3ynPDsyjkCgGikLWg")]
+        [InlineData("F:DocSite.Test.Xml.MemberDetails.something", MemberType.Field, "DocSite.Test.Xml.MemberDetails.something", "something", "DocSite.Test.Xml.MemberDetails", null, "a-NStD4Tt4Hsh5L7UYjQfQ")]
+        [InlineData("E:DocSite.Test.Xml.MemberDetails.OnEvent", MemberType.Event, "DocSite.Test.Xml.MemberDetails.OnEvent", "OnEvent", "DocSite.Test.Xml.MemberDetails", null, "owXeeGO6FsEuya_4cieG1w")]
+        [InlineData("!:SomeErrorOccurred", MemberType.Error, null, null, null, "SomeErrorOccurred", "MpIFRt-HuOl7l5k_F-XCjQ")]
         public void ConstructorSetsIdAndDocXml(string id, MemberType expectedType, string expectedFullName, string expectedLocalName, string expectedParent, string expectedError, string expectedFileId)
         {
             var subject = new MemberDetails {Id = id};
