@@ -81,7 +81,7 @@ namespace DocSite.SiteModel
 
         public Page BuildPage(DocSiteModel context)
         {
-            var sections = new List<IRenderable>();
+            var sections = new List<ISection>();
             MemberDetails.AddCommonSections(sections);
             AddConstructors(sections);
             AddFields(sections);
@@ -98,7 +98,7 @@ namespace DocSite.SiteModel
             };
         }
 
-        private void AddConstructors(IList<IRenderable> sections)
+        private void AddConstructors(IList<ISection> sections)
         {
             if (Constructors.Any())
             {
@@ -112,7 +112,7 @@ namespace DocSite.SiteModel
             }
         }
 
-        private void AddFields(IList<IRenderable> sections)
+        private void AddFields(IList<ISection> sections)
         {
             if (Constructors.Any())
             {
@@ -126,7 +126,7 @@ namespace DocSite.SiteModel
             }
         }
 
-        private void AddProperties(IList<IRenderable> sections)
+        private void AddProperties(IList<ISection> sections)
         {
             if (Constructors.Any())
             {
@@ -140,7 +140,7 @@ namespace DocSite.SiteModel
             }
         }
 
-        private void AddMethods(IList<IRenderable> sections)
+        private void AddMethods(IList<ISection> sections)
         {
             if (Constructors.Any())
             {
@@ -154,7 +154,7 @@ namespace DocSite.SiteModel
             }
         }
 
-        private void AddEvents(IList<IRenderable> sections)
+        private void AddEvents(IList<ISection> sections)
         {
             if (Constructors.Any())
             {
@@ -168,7 +168,7 @@ namespace DocSite.SiteModel
             }
         }
 
-        private void AddTypes(IList<IRenderable> sections)
+        private void AddTypes(IList<ISection> sections)
         {
             if (Constructors.Any())
             {

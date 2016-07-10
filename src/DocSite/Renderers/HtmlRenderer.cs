@@ -83,12 +83,7 @@ namespace DocSite.Renderers
 
         public string RenderNodes(IEnumerable<XmlNode> nodes)
         {
-            var result = new StringBuilder();
-            foreach (var node in nodes)
-            {
-                result.Append(RenderNode(node));
-            }
-            return result.ToString();
+            return string.Join(" ", nodes.Select(n => RenderNode(n)));
         }
 
         public string RenderNode(XmlNode node)

@@ -39,7 +39,7 @@ namespace DocSite.SiteModel
 
         public Page BuildPage(DocSiteModel context)
         {
-            var sections = new List<IRenderable>();
+            var sections = new List<ISection>();
             MemberDetails.AddCommonSections(sections);
             AddTypes(sections);
             return new Page
@@ -71,7 +71,7 @@ namespace DocSite.SiteModel
             };
         }
 
-        public void AddTypes(IList<IRenderable> sections)
+        public void AddTypes(IList<ISection> sections)
         {
             if (Types.Any())
             {

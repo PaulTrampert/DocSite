@@ -118,7 +118,7 @@ namespace DocSite.Xml
 
         public XmlElement Value => DocXml?.SingleOrDefault(xml => xml.Name == "value");
 
-        public void AddCommonSections(IList<IRenderable> sections)
+        public void AddCommonSections(IList<ISection> sections)
         {
             AddSummary(sections);
             AddTypeParams(sections);
@@ -132,7 +132,7 @@ namespace DocSite.Xml
             AddSeeAlso(sections);
         }
 
-        private void AddSeeAlso(IList<IRenderable> sections)
+        private void AddSeeAlso(IList<ISection> sections)
         {
             if (SeeAlso.Any())
             {
@@ -145,7 +145,7 @@ namespace DocSite.Xml
             }
         }
 
-        private void AddValue(IList<IRenderable> sections)
+        private void AddValue(IList<ISection> sections)
         {
             if (Value != null)
             {
@@ -158,7 +158,7 @@ namespace DocSite.Xml
             }
         }
 
-        private void AddReturns(IList<IRenderable> sections)
+        private void AddReturns(IList<ISection> sections)
         {
             if (Returns != null)
             {
@@ -171,7 +171,7 @@ namespace DocSite.Xml
             }
         }
 
-        private void AddExceptions(IList<IRenderable> sections)
+        private void AddExceptions(IList<ISection> sections)
         {
             if (Exceptions.Any())
             {
@@ -184,7 +184,7 @@ namespace DocSite.Xml
             }
         }
 
-        private void AddPermissions(IList<IRenderable> sections)
+        private void AddPermissions(IList<ISection> sections)
         {
             if (Permission.Any())
             {
@@ -197,7 +197,7 @@ namespace DocSite.Xml
             }
         }
 
-        private void AddExample(IList<IRenderable> sections)
+        private void AddExample(IList<ISection> sections)
         {
             if (Example != null)
             {
@@ -210,7 +210,7 @@ namespace DocSite.Xml
             }
         }
 
-        private void AddRemarks(IList<IRenderable> sections)
+        private void AddRemarks(IList<ISection> sections)
         {
             if (Remarks != null)
             {
@@ -223,7 +223,7 @@ namespace DocSite.Xml
             }
         }
 
-        private void AddSummary(IList<IRenderable> sections)
+        private void AddSummary(IList<ISection> sections)
         {
             if (Summary != null)
             {
@@ -236,7 +236,7 @@ namespace DocSite.Xml
             }
         }
 
-        private void AddTypeParams(IList<IRenderable> sections)
+        private void AddTypeParams(IList<ISection> sections)
         {
             if (TypeParams.Any())
             {
@@ -249,7 +249,7 @@ namespace DocSite.Xml
             }
         }
 
-        private void AddParams(IList<IRenderable> sections)
+        private void AddParams(IList<ISection> sections)
         {
             if (Params.Any())
             {

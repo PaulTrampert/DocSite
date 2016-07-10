@@ -29,7 +29,7 @@ namespace DocSite.SiteModel
 
         public Page BuildPage(DocSiteModel context)
         {
-            var sections = new List<IRenderable>();
+            var sections = new List<ISection>();
             MemberDetails.AddCommonSections(sections);
             return new Page
             {
