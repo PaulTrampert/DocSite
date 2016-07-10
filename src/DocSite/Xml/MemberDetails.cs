@@ -136,6 +136,12 @@ namespace DocSite.Xml
         {
             if (SeeAlso.Any())
             {
+                sections.Add(new Section
+                {
+                    Title = "See Also",
+                    Order = int.MaxValue,
+                    Body = SeeAlso
+                });
             }
         }
 
