@@ -12,22 +12,44 @@ using DocSite.SiteModel;
 
 namespace DocSite.Xml
 {
+    /// <summary>
+    /// Represents the member element in a documentation xml document.
+    /// </summary>
     [XmlRoot("member")]
     public class MemberDetails
     {
+        /// <summary>
+        /// Regex for parsing the <see cref="Id"/>
+        /// </summary>
         public const string IdRegex = @"^[NTFPME!]:(?<fullName>(?<namespace>([^\.\(]+\.)+)(?<localName>[^\(\.]+(\([^\)]+\))?))$";
 
+        /// <summary>
+        /// The Id of the member. Mapps to the name attribute in the xml document.
+        /// </summary>
+        /// <value>Gets/Sets the <see cref="Id"/></value>
         [XmlAttribute("name")]
         public string Id {get;set;}
 
+        /// <summary>
+        /// A filesystem friendly id for the member.
+        /// </summary>
+        /// <value>Gets the <see cref="FileId"/></value>
         public string FileId
         {
             get { return Convert.ToBase64String(Encoding.UTF8.GetBytes(Id)).Replace('+', '-').Replace('/', '_').TrimEnd('='); }
         }
 
+        /// <summary>
+        /// Raw xml data contained within the member element.
+        /// </summary>
+        /// <value>Gets/Sets the <see cref="DocXml"/></value>
         [XmlAnyElement]
         public XmlElement[] DocXml {get;set;}
 
+        /// <summary>
+        /// The type of member being represented.
+        /// </summary>
+        /// <value>Gets the <see cref="Type"/></value>
         public MemberType Type
         {
             get
@@ -62,6 +84,10 @@ namespace DocSite.Xml
             }
         }
 
+        /// <summary>
+        /// If member type is error, this will be the error message.
+        /// </summary>
+        /// <value>Gets the <see cref="Error"/></value>
         public string Error
         {
             get
@@ -71,6 +97,10 @@ namespace DocSite.Xml
             }
         }
 
+        /// <summary>
+        /// The full name of what is likely the parent member of this member.
+        /// </summary>
+        /// <value>Gets the <see cref="ParentMember"/></value>
         public string ParentMember
         {
             get
@@ -80,6 +110,10 @@ namespace DocSite.Xml
             }
         }
 
+        /// <summary>
+        /// The full name of this member.
+        /// </summary>
+        /// <value>Gets the full name of this member.</value>
         public string FullName 
         {
             get
@@ -89,6 +123,10 @@ namespace DocSite.Xml
             }
         }
 
+        /// <summary>
+        /// The short, or local name of this member.
+        /// </summary>
+        /// <value>Gets the <see cref="LocalName"/></value>
         public string LocalName 
         {
             get
@@ -98,26 +136,60 @@ namespace DocSite.Xml
             }
         }
 
+        /// <summary>
+        /// Gets the summary element.
+        /// </summary>
         public XmlElement Summary => DocXml?.SingleOrDefault(xml => xml.Name == "summary");
 
+        /// <summary>
+        /// Gets the remarks element.
+        /// </summary>
         public XmlElement Remarks => DocXml?.SingleOrDefault(xml => xml.Name == "remarks");
 
+        /// <summary>
+        /// Gets all permission elements.
+        /// </summary>
         public IEnumerable<XmlElement> Permission => DocXml?.Where(xml => xml.Name == "permission");
 
+        /// <summary>
+        /// Gets all exception elements.
+        /// </summary>
         public IEnumerable<XmlElement> Exceptions => DocXml?.Where(xml => xml.Name == "exception");
 
+        /// <summary>
+        /// Gets the example element.
+        /// </summary>
         public XmlElement Example => DocXml?.SingleOrDefault(xml => xml.Name == "example");
 
+        /// <summary>
+        /// Gets the params elements.
+        /// </summary>
         public IEnumerable<XmlElement> Params => DocXml?.Where(xml => xml.Name == "param");
 
+        /// <summary>
+        /// Gets the typeparam elements.
+        /// </summary>
         public IEnumerable<XmlElement> TypeParams => DocXml?.Where(xml => xml.Name == "typeparam");
 
+        /// <summary>
+        /// Gets the seealso elements.
+        /// </summary>
         public IEnumerable<XmlElement> SeeAlso => DocXml?.Where(xml => xml.Name == "seealso");
 
+        /// <summary>
+        /// Gets the returns element.
+        /// </summary>
         public XmlElement Returns => DocXml?.SingleOrDefault(xml => xml.Name == "returns");
 
+        /// <summary>
+        /// Gets the value element.
+        /// </summary>
         public XmlElement Value => DocXml?.SingleOrDefault(xml => xml.Name == "value");
 
+        /// <summary>
+        /// Adds top level sections to the provided list of sections.
+        /// </summary>
+        /// <param name="sections">List of sections to add to.</param>
         public void AddCommonSections(IList<ISection> sections)
         {
             AddSummary(sections);

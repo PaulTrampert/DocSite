@@ -8,35 +8,70 @@ using DocSite.Pages;
 
 namespace DocSite.SiteModel
 {
+    /// <summary>
+    /// <see cref="IDocModel"/> that represents a Type.
+    /// </summary>
+    /// <seealso cref="IDocModel"/>
     public class DocType : IDocModel
     {
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
         public MemberDetails MemberDetails { get; }
+
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
         public IDocModel Parent { get; }
 
+        /// <summary>
+        /// The full name of the type.
+        /// </summary>
+        /// <value>Gets the full name of the type.</value>
         public string Name => MemberDetails.FullName;
 
-        public XmlElement Summary => MemberDetails.DocXml.SingleOrDefault(xml => xml.Name == "summary");
+        /// <summary>
+        /// Collection of <see cref="DocConstructor"/> for this type.
+        /// </summary>
+        /// <value>Gets the <see cref="Constructors"/></value>
+        public IEnumerable<DocConstructor> Constructors { get; }
 
-        public XmlElement Remarks => MemberDetails.DocXml.SingleOrDefault(xml => xml.Name == "remarks");
-
-        public XmlElement Example => MemberDetails.DocXml.SingleOrDefault(xml => xml.Name == "example");
-
-        public IEnumerable<XmlElement> TypeParams => MemberDetails.DocXml.Where(xml => xml.Name == "typeparam");
-
-        public IEnumerable<DocConstructor> Constructors { get; set; }
-
+        /// <summary>
+        /// Collection of <see cref="DocProperty"/> for this type.
+        /// </summary>
+        /// <value>Gets the <see cref="Properties"/></value>
         public IEnumerable<DocProperty> Properties { get; }
 
+        /// <summary>
+        /// Collection of <see cref="DocMethod"/> for this type.
+        /// </summary>
+        /// <value>Gets the <see cref="Methods"/></value>
         public IEnumerable<DocMethod> Methods { get; }
 
-        public IEnumerable<DocField> Fields { get; set; }
+        /// <summary>
+        /// Collection of <see cref="DocField"/> for this type.
+        /// </summary>
+        /// <value>Gets the <see cref="Fields"/></value>
+        public IEnumerable<DocField> Fields { get; }
 
-        public IEnumerable<DocEvent> Events { get; set; }
+        /// <summary>
+        /// Collection of <see cref="DocEvent"/> for this type.
+        /// </summary>
+        /// <value>Gets the <see cref="Events"/></value>
+        public IEnumerable<DocEvent> Events { get; }
 
-        public IEnumerable<DocType> Types { get; set; }
+        /// <summary>
+        /// Collection of <see cref="DocType"/> for this type.
+        /// </summary>
+        /// <value>Gets the <see cref="Types"/></value>
+        public IEnumerable<DocType> Types { get; }
 
-        public IEnumerable<XmlElement> SeeAlso => MemberDetails.DocXml.Where(xml => xml.Name == "seealso");
-
+        /// <summary>
+        /// Create a new <see cref="DocType"/>
+        /// </summary>
+        /// <param name="memberDetails">The <see cref="MemberDetails"/> to create the <see cref="DocType"/> from.</param>
+        /// <param name="otherMembers">Collection of other <see cref="DocSite.Xml.MemberDetails"/> that contains the other members to create children from.</param>
+        /// <param name="parent">The parent of the <see cref="DocType"/>. This should be a <see cref="DocNamespace"/> or <see cref="DocType"/>.</param>
         public DocType(MemberDetails memberDetails, IEnumerable<MemberDetails> otherMembers, IDocModel parent = null)
         {
             if (memberDetails == null) throw new ArgumentNullException(nameof(memberDetails));
@@ -67,6 +102,9 @@ namespace DocSite.SiteModel
                     .Select(m => new DocType(m, otherMembers, this));
         }
 
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
         public void AddMembersToDictionary(IDictionary<string, IDocModel> membersDictionary)
         {
             if (membersDictionary == null) throw new ArgumentNullException(nameof(membersDictionary));
@@ -79,6 +117,9 @@ namespace DocSite.SiteModel
             membersDictionary.Add(MemberDetails.Id, this);
         }
 
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
         public Page BuildPage(DocSiteModel context)
         {
             var sections = new List<ISection>();
@@ -182,11 +223,18 @@ namespace DocSite.SiteModel
             }
         }
 
+        /// <summary>
+        /// Gets the table headers for including this type in a table.
+        /// </summary>
+        /// <returns><see cref="IEnumerable{String}"/> - The collection of table headers.</returns>
         public static IEnumerable<string> GetTableHeaders()
         {
             return new[] {"Name", "Description"};
         }
 
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
         public TableRow GetTableRow()
         {
             return new TableRow

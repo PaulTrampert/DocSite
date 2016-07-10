@@ -1,5 +1,4 @@
 ﻿using DocSite.Pages;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,17 +10,29 @@ using DocSite.Xml;
 
 namespace DocSite.Renderers
 {
+    /// <summary>
+    /// Renderer that renders to HTML.
+    /// </summary>
+    /// <seealso cref="IRenderer"/>
     public class HtmlRenderer : IRenderer
     {
         private ITemplateLoader _templateLoader;
         private DocSiteModel _context;
 
+        /// <summary>
+        /// Creates a new <see cref="HtmlRenderer"/>.
+        /// </summary>
+        /// <param name="templateLoader">The <see cref="ITemplateLoader"/> to use to find templates.</param>
+        /// <param name="context">The <see cref="DocSiteModel"/> that will be rendered.</param>
         public HtmlRenderer(ITemplateLoader templateLoader, DocSiteModel context)
         {
             _templateLoader = templateLoader;
             _context = context;
         }
 
+        /// <summary>
+        /// Inherited from <see cref="IRenderer"/>.
+        /// </summary>
         public string RenderPage(Page page)
         {
             var templateName = "Page.html";
@@ -38,6 +49,9 @@ namespace DocSite.Renderers
             return template.Replace("@Body", body.ToString());
         }
 
+        /// <summary>
+        /// Inherited from <see cref="IRenderer"/>.
+        /// </summary>
         public string RenderSection(Section section)
         {
             var templateName = "Section.html";
@@ -53,6 +67,9 @@ namespace DocSite.Renderers
             return template.Replace("@Body", body.ToString());
         }
 
+        /// <summary>
+        /// Inherited from <see cref="IRenderer"/>.
+        /// </summary>
         public string RenderTableSection(TableSection section)
         {
             var templateName = "TableSection.html";
@@ -69,10 +86,7 @@ namespace DocSite.Renderers
             {
                 var columns = string.Join("",
                     row.Columns.Select(
-                        c =>
-                            c.Link == null
-                                ? RenderNode(c.Content)
-                                : $"<a href=\"{c.Link}.html\">{RenderNode(c.Content)}</a>"));
+                        c =>$"<td>{(c.Link == null ? RenderNode(c.Content) : $"<a href=\"{c.Link}.html\">{RenderNode(c.Content)}</a>")}</td>"));
                 rows.Append(rowTemplate.Replace("@Columns", columns));
             }
             return tableTemplate
@@ -81,11 +95,17 @@ namespace DocSite.Renderers
                 .Replace("@Rows", rows.ToString());
         }
 
+        /// <summary>
+        /// Inherited from <see cref="IRenderer"/>.
+        /// </summary>
         public string RenderNodes(IEnumerable<XmlNode> nodes)
         {
             return string.Join(" ", nodes.Select(n => RenderNode(n)));
         }
 
+        /// <summary>
+        /// Inherited from <see cref="IRenderer"/>.
+        /// </summary>
         public string RenderNode(XmlNode node)
         {
             var templateName = $"{node.Name.Trim('#')}.html";
@@ -126,20 +146,18 @@ namespace DocSite.Renderers
             return template.Replace("@Body", body.ToString());
         }
 
+        /// <summary>
+        /// Inherited from <see cref="IRenderer"/>.
+        /// </summary>
         public string RenderDefinitionsSection(DefinitionsSection section)
         {
-            throw new NotImplementedException();
-        }
-    }
+            var templateName = "DefinitionsSection.html";
+            var template = _templateLoader.LoadTemplate(templateName);
+            if (template == null) throw new TemplateNotFoundException(templateName);
 
-    internal class TemplateNotFoundException : Exception
-    {
-        public TemplateNotFoundException()
-        {
-        }
-
-        public TemplateNotFoundException(string templateName) : base($"{templateName} could not be found")
-        {
+            var body = RenderNodes(section.Definitions);
+            template = template.Replace("@Title", section.Title);
+            return template.Replace("@Body", body.ToString());
         }
     }
 }

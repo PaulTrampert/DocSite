@@ -9,18 +9,44 @@ using DocSite.Pages;
 
 namespace DocSite.SiteModel
 {
+    /// <summary>
+    /// <see cref="IDocModel"/> that represents a full documentation site.
+    /// </summary>
+    /// <seealso cref="IDocModel"/>
     public class DocSiteModel : IDocModel
     {
+        /// <summary>
+        /// The name of the assembly the documentation site is for.
+        /// </summary>
+        /// <value>Gets the <see cref="AssemblyName"/></value>
         public string AssemblyName { get; }
 
+        /// <summary>
+        /// A collection of <see cref="DocNamespace"/> objects in the documentation.
+        /// </summary>
+        /// <value>Gets the <see cref="Namespaces"/></value>
         public IEnumerable<DocNamespace> Namespaces { get; }
 
+        /// <summary>
+        /// A dictionary mapping member ids to <see cref="IDocModel"/>
+        /// </summary>
+        /// <value>Gets the <see cref="MembersDictionary"/></value>
         public IDictionary<string, IDocModel> MembersDictionary { get; }
 
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
         public MemberDetails MemberDetails { get; }
 
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
         public IDocModel Parent { get;  }
 
+        /// <summary>
+        /// Create a <see cref="DocSiteModel"/> from a <see cref="DocXmlModel"/>
+        /// </summary>
+        /// <param name="xmlModel">The <see cref="DocXmlModel"/> to create the <see cref="DocSiteModel"/> from.</param>
         public DocSiteModel(DocXmlModel xmlModel)
         {
             AssemblyName = xmlModel.Assembly.Name;
@@ -37,6 +63,9 @@ namespace DocSite.SiteModel
             AddMembersToDictionary(MembersDictionary);
         }
 
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
         public void AddMembersToDictionary(IDictionary<string, IDocModel> membersDictionary)
         {
             if (membersDictionary == null) throw new ArgumentNullException(nameof(membersDictionary));
@@ -46,6 +75,9 @@ namespace DocSite.SiteModel
             }
         }
 
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
         public Page BuildPage(DocSiteModel context)
         {
             return new Page
@@ -68,11 +100,19 @@ namespace DocSite.SiteModel
             };
         }
 
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
+        /// <exception cref="NotImplementedException">Not implemented on this type.</exception>
         public TableRow GetTableRow()
         {
             throw new NotImplementedException();
         }
-
+        
+        /// <summary>
+        /// Build all pages in the <see cref="DocSiteModel"/>.
+        /// </summary>
+        /// <returns><see cref="IEnumerable{Page}"/> - The collection of pages in the documentation.</returns>
         public IEnumerable<Page> BuildPages()
         {
             foreach (var member in MembersDictionary)

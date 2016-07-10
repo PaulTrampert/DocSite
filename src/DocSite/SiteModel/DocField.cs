@@ -8,11 +8,27 @@ using DocSite.Pages;
 
 namespace DocSite.SiteModel
 {
+    /// <summary>
+    /// <see cref="IDocModel"/> that represents a Field.
+    /// </summary>
+    /// <seealso cref="IDocModel"/>
     public class DocField : IDocModel
     {
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
         public MemberDetails MemberDetails { get; }
+
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
         public IDocModel Parent { get; }
 
+        /// <summary>
+        /// Create a new <see cref="DocField"/>
+        /// </summary>
+        /// <param name="memberDetails">The <see cref="DocSite.Xml.MemberDetails"/> to create the <see cref="DocField"/> from.</param>
+        /// <param name="parent">The parent of the <see cref="DocField"/>. This should be a <see cref="DocType"/>.</param>
         public DocField(MemberDetails memberDetails, IDocModel parent = null)
         {
             if (memberDetails == null) throw new ArgumentNullException(nameof(memberDetails));
@@ -21,12 +37,18 @@ namespace DocSite.SiteModel
             Parent = parent;
         }
 
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
         public void AddMembersToDictionary(IDictionary<string, IDocModel> membersDictionary)
         {
             if (membersDictionary == null) throw new ArgumentNullException(nameof(membersDictionary));
             membersDictionary.Add(MemberDetails.Id, this);
         }
 
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
         public Page BuildPage(DocSiteModel context)
         {
             var sections = new List<ISection>();
@@ -40,11 +62,18 @@ namespace DocSite.SiteModel
             };
         }
 
+        /// <summary>
+        /// Gets the table headers for including this type in a table.
+        /// </summary>
+        /// <returns><see cref="IEnumerable{String}"/> - The collection of table headers.</returns>
         public static IEnumerable<string> GetTableHeaders()
         {
             return new[] { "Name", "Description" };
         }
 
+        /// <summary>
+        /// Inherited from <see cref="IDocModel"/>
+        /// </summary>
         public TableRow GetTableRow()
         {
             return new TableRow
