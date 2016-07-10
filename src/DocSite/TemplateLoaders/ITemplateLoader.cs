@@ -1,3 +1,5 @@
+using System;
+
 namespace DocSite.TemplateLoaders
 {
     /// <summary>

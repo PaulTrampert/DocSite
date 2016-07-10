@@ -33,7 +33,7 @@ namespace DocSite.SiteModel
         IDocModel Parent { get; }
 
         /// <summary>
-        /// Adds itself and any child members to a dictionary, using <see cref="this.MemberDetails.Id"/> as the key.
+        /// Adds itself and any child members to a dictionary, using <c>MemberDetails.Id</c> as the key.
         /// </summary>
         /// <param name="membersDictionary"></param>
         void AddMembersToDictionary(IDictionary<string, IDocModel> membersDictionary);

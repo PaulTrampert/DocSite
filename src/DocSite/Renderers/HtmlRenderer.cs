@@ -86,13 +86,18 @@ namespace DocSite.Renderers
             {
                 var columns = string.Join("",
                     row.Columns.Select(
-                        c =>$"<td>{(c.Link == null ? RenderNode(c.Content) : $"<a href=\"{c.Link}.html\">{RenderNode(c.Content)}</a>")}</td>"));
+                        c =>$"<td>{(c.Link == null ? RenderTableData(c) : $"<a href=\"{c.Link}.html\">{RenderTableData(c)}</a>")}</td>"));
                 rows.Append(rowTemplate.Replace("@Columns", columns));
             }
             return tableTemplate
                 .Replace("@Title", section.Title)
                 .Replace("@Headers", headers)
                 .Replace("@Rows", rows.ToString());
+        }
+
+        private string RenderTableData(TableData data)
+        {
+            return data.XmlContent == null ? data.TextContent ?? "" : RenderNode(data.XmlContent);
         }
 
         /// <summary>
@@ -129,14 +134,14 @@ namespace DocSite.Renderers
                 if (!isProjectReference)
                 {
                     memberDetails = new MemberDetails {Id = node.Attributes["cref"].Value};
-                    template = template.Replace("@Cref", "#");
                     template = template.Replace("@CrefText", memberDetails.FullName);
+                    template = template.Replace("@Cref", "#");
                 }
                 else
                 {
                     memberDetails = refMember.MemberDetails;
-                    template = template.Replace("@Cref", $"{memberDetails.FileId}.html");
                     template = template.Replace("@CrefText", memberDetails.LocalName);
+                    template = template.Replace("@Cref", $"{memberDetails.FileId}.html");
                 }
             }
             if (node.Attributes?["name"] != null)

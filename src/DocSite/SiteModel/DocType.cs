@@ -133,7 +133,7 @@ namespace DocSite.SiteModel
             return new Page
             {
                 AssemblyName = context.AssemblyName,
-                Name = Name,
+                Name = MemberDetails.FileId,
                 Title = MemberDetails.LocalName,
                 Sections = sections
             };
@@ -155,7 +155,7 @@ namespace DocSite.SiteModel
 
         private void AddFields(IList<ISection> sections)
         {
-            if (Constructors.Any())
+            if (Fields.Any())
             {
                 sections.Add(new TableSection
                 {
@@ -169,7 +169,7 @@ namespace DocSite.SiteModel
 
         private void AddProperties(IList<ISection> sections)
         {
-            if (Constructors.Any())
+            if (Properties.Any())
             {
                 sections.Add(new TableSection
                 {
@@ -183,7 +183,7 @@ namespace DocSite.SiteModel
 
         private void AddMethods(IList<ISection> sections)
         {
-            if (Constructors.Any())
+            if (Methods.Any())
             {
                 sections.Add(new TableSection
                 {
@@ -197,7 +197,7 @@ namespace DocSite.SiteModel
 
         private void AddEvents(IList<ISection> sections)
         {
-            if (Constructors.Any())
+            if (Events.Any())
             {
                 sections.Add(new TableSection
                 {
@@ -211,7 +211,7 @@ namespace DocSite.SiteModel
 
         private void AddTypes(IList<ISection> sections)
         {
-            if (Constructors.Any())
+            if (Types.Any())
             {
                 sections.Add(new TableSection
                 {
@@ -237,6 +237,7 @@ namespace DocSite.SiteModel
         /// </summary>
         public TableRow GetTableRow()
         {
+            var document = new XmlDocument();
             return new TableRow
             {
                 Columns = new[]
@@ -244,11 +245,11 @@ namespace DocSite.SiteModel
                     new TableData
                     {
                         Link = MemberDetails.FileId,
-                        Content = new XmlDocument {InnerText = MemberDetails.LocalName}
+                        TextContent = MemberDetails.LocalName
                     },
                     new TableData
                     {
-                        Content = MemberDetails.Summary
+                        XmlContent = MemberDetails.Summary
                     }
                 }
             };

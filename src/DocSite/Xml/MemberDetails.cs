@@ -206,7 +206,7 @@ namespace DocSite.Xml
 
         private void AddSeeAlso(IList<ISection> sections)
         {
-            if (SeeAlso.Any())
+            if (SeeAlso != null && SeeAlso.Any())
             {
                 sections.Add(new Section
                 {
@@ -245,7 +245,7 @@ namespace DocSite.Xml
 
         private void AddExceptions(IList<ISection> sections)
         {
-            if (Exceptions.Any())
+            if (Exceptions != null && Exceptions.Any())
             {
                 sections.Add(new DefinitionsSection
                 {
@@ -258,7 +258,7 @@ namespace DocSite.Xml
 
         private void AddPermissions(IList<ISection> sections)
         {
-            if (Permission.Any())
+            if (Permission != null && Permission.Any())
             {
                 sections.Add(new DefinitionsSection
                 {
@@ -310,7 +310,7 @@ namespace DocSite.Xml
 
         private void AddTypeParams(IList<ISection> sections)
         {
-            if (TypeParams.Any())
+            if (TypeParams != null && TypeParams.Any())
             {
                 sections.Add(new DefinitionsSection()
                 {
@@ -323,7 +323,7 @@ namespace DocSite.Xml
 
         private void AddParams(IList<ISection> sections)
         {
-            if (Params.Any())
+            if (Params != null && Params.Any())
             {
                 sections.Add(new DefinitionsSection
                 {

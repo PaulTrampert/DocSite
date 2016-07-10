@@ -14,9 +14,15 @@ namespace DocSite.Pages
         public string Link { get; set; }
 
         /// <summary>
+        /// Text content for the table data. Only used if XmlContent is null.
+        /// </summary>
+        /// <value>Gets/Sets the <see cref="TextContent"/></value>
+        public string TextContent { get; set; }
+
+        /// <summary>
         /// The content of the table data. This will be rendered and visible to the user.
         /// </summary>
-        /// <value>Gets/Sets the <see cref="Content"/>.</value>
-        public XmlNode Content { get; set; }
+        /// <value>Gets/Sets the <see cref="XmlContent"/>.</value>
+        public XmlNode XmlContent { get; set; }
     }
 }

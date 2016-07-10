@@ -102,13 +102,13 @@ namespace DocSite.SiteModel
                     new TableData
                     {
                         Link = MemberDetails.FileId,
-                        Content = new XmlDocument {InnerText = MemberDetails.FullName}
+                        TextContent = MemberDetails.FullName
                     }
                 }
             };
         }
 
-        public void AddTypes(IList<ISection> sections)
+        private void AddTypes(IList<ISection> sections)
         {
             if (Types.Any())
             {

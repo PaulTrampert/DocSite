@@ -91,10 +91,7 @@ namespace DocSite.SiteModel
                     {
                         Title = "Namespaces",
                         Headers = new []{"Namespace"},
-                        Rows = Namespaces.Select(n => new TableRow
-                        {
-                            Columns = new []{new TableData {Link = n.MemberDetails.FileId, Content = new XmlDocument() {InnerText = n.Name} } }
-                        })
+                        Rows = Namespaces.Select(n => n.GetTableRow())
                     }
                 }
             };

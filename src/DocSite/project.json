@@ -3,7 +3,8 @@
   "buildOptions": {
     "emitEntryPoint": true,
     "embed": "Templates/**/*",
-    "compile": "**/*.cs"
+    "compile": "**/*.cs",
+    "xmlDoc": true 
   },
   "packOptions": {
     "projectUrl": "https://github.com/PaulTrampert/DocSite",

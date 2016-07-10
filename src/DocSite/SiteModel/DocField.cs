@@ -83,11 +83,11 @@ namespace DocSite.SiteModel
                     new TableData
                     {
                         Link = MemberDetails.FileId,
-                        Content = new XmlDocument {InnerText = MemberDetails.LocalName}
+                        TextContent = MemberDetails.LocalName
                     },
                     new TableData
                     {
-                        Content = MemberDetails.Summary
+                        XmlContent = MemberDetails.Summary
                     }
                 }
             };
