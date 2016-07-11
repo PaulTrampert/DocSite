@@ -34,7 +34,7 @@ namespace DocSite
                 if (arguments.Help)
                 {
                     var helpBuilder = new HelpBuilder<Arguments>();
-                    Console.WriteLine(helpBuilder.BuildHelp(typeof(Program).GetTypeInfo().Assembly.GetName().Name));
+                    Console.WriteLine(helpBuilder.BuildHelp($"dotnet {typeof(Program).GetTypeInfo().Assembly.GetName().Name}.dll"));
                     return;
                 }
                 var builder = new ModelBuilder();

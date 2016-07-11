@@ -18,6 +18,15 @@
     ],
     "summary": "Builds documentation pages out of C# documentation comments."
   },
+  "configurations": {
+    "Debug": {},
+    "Release": {
+      "buildOptions": {
+        "optimize": true,
+        "debugType": "none"
+      }
+    }  
+  },
   "dependencies": {
     "Microsoft.Extensions.Logging": "1.0.0",
     "Microsoft.Extensions.Logging.Console": "1.0.0",

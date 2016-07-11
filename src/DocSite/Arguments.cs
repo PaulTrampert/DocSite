@@ -7,10 +7,17 @@ using PTrampert.AppArgs.Attributes;
 
 namespace DocSite
 {
+    /// <summary>
+    /// Object specifying the arguments for the application.
+    /// </summary>
     public class Arguments
     {
         private string _docXml;
 
+        /// <summary>
+        /// The input file. Setting this converts the value to a full path.
+        /// </summary>
+        /// <value>Gets/Sets the <see cref="DocXml"/></value>
         [Option(Name = "inputFile", ShortName = "i", Description = "The documentation xml file to process.")]
         public string DocXml
         {
@@ -18,10 +25,19 @@ namespace DocSite
             set { _docXml = Path.GetFullPath(value); }
         }
 
+        /// <summary>
+        /// The renderer to use.
+        /// </summary>
+        /// <value>Gets/Sets the <see cref="Renderer"/></value>
         [Option(Name="renderer", ShortName = "r", Description = "The renderer to use. Defaults to Html.")]
         public RendererOptions Renderer { get; set; }
 
         private string _outDir;
+
+        /// <summary>
+        /// The directory to render the site to. This is expanded to a full path.
+        /// </summary>
+        /// <value>Gets/Sets the <see cref="OutputDirectory"/></value>
         [Option(Name = "outputDirectory", ShortName = "o", Description = "Directory to render to. Defaults to the current working directory.")]
         public string OutputDirectory
         {
@@ -29,6 +45,10 @@ namespace DocSite
             set { _outDir = Path.GetFullPath(value); }
         }
 
+        /// <summary>
+        /// Flag indicating whether or not to show help.
+        /// </summary>
+        /// <value>Gets/Sets the <see cref="Help"/> flag.</value>
         [Option(Name = "help", ShortName = "h", Description = "Show the help output.")]
         public bool Help { get; set; }
 
