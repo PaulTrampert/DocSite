@@ -6,6 +6,7 @@ using DocSite.SiteModel;
 using DocSite.TemplateLoaders;
 using DocSite.Xml;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using PTrampert.AppArgs;
 
 namespace DocSite
@@ -18,25 +19,26 @@ namespace DocSite
         /// <summary>
         /// Logger factory to be used throughout the program.
         /// </summary>
-        public static readonly ILoggerFactory LoggerFactory = new LoggerFactory().AddConsole();
-
         /// <summary>
         /// Entry point of DocSite
         /// </summary>
         /// <param name="args">Command line arguments.</param>
         public static void Main(string[] args)
         {
-            var logger = LoggerFactory.CreateLogger<Program>();
+            var argParser = new MixedParser<Arguments>();
+            var arguments = argParser.Parse(args);
+            if (arguments.Help)
+            {
+                var helpBuilder = new HelpBuilder<Arguments>();
+                Console.WriteLine(
+                    helpBuilder.BuildHelp($"dotnet {typeof(Program).GetTypeInfo().Assembly.GetName().Name}.dll"));
+                return;
+            }
+            var logFactory = new LoggerFactory().AddConsole(arguments.LogLevel);
+            var logger = logFactory.CreateLogger<Program>();
+
             try
             {
-                var argParser = new MixedParser<Arguments>();
-                var arguments = argParser.Parse(args);
-                if (arguments.Help)
-                {
-                    var helpBuilder = new HelpBuilder<Arguments>();
-                    Console.WriteLine(helpBuilder.BuildHelp($"dotnet {typeof(Program).GetTypeInfo().Assembly.GetName().Name}.dll"));
-                    return;
-                }
                 var builder = new ModelBuilder();
                 var xmlModel = builder.BuildModelFromXml(arguments.DocXml);
                 var docModel = new DocSiteModel(xmlModel);
@@ -49,7 +51,8 @@ namespace DocSite
                         var htmlTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html");
                         var cssTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html.css");
                         var scriptsTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html.scripts");
-                        renderer = new HtmlRenderer(htmlTemplateLoader, cssTemplateLoader, scriptsTemplateLoader, docModel);
+                        renderer = new HtmlRenderer(htmlTemplateLoader, cssTemplateLoader, scriptsTemplateLoader,
+                            docModel, logFactory);
                         logger.LogInformation($"Using Renderer: {typeof(HtmlRenderer).Name}");
                         break;
                 }

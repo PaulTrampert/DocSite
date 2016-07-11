@@ -34,9 +34,9 @@ namespace DocSite.Renderers
         /// <param name="context">The <see cref="DocSiteModel"/> that will be rendered.</param>
         /// <param name="scriptsTemplateLoader"></param>
         /// <param name="cssTemplateLoader"></param>
-        public HtmlRenderer(ITemplateLoader htmlTemplateLoader, ITemplateLoader cssTemplateLoader, ITemplateLoader scriptsTemplateLoader, DocSiteModel context)
+        public HtmlRenderer(ITemplateLoader htmlTemplateLoader, ITemplateLoader cssTemplateLoader, ITemplateLoader scriptsTemplateLoader, DocSiteModel context, ILoggerFactory logFactory = null)
         {
-            _logger = Program.LoggerFactory.CreateLogger<HtmlRenderer>();
+            _logger = (logFactory ?? new LoggerFactory().AddConsole()).CreateLogger<HtmlRenderer>();
             _htmlTemplateLoader = htmlTemplateLoader;
             _cssTemplateLoader = cssTemplateLoader;
             _scriptsTemplateLoader = scriptsTemplateLoader;

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using PTrampert.AppArgs.Attributes;
 
 namespace DocSite
@@ -53,12 +55,20 @@ namespace DocSite
         public bool Help { get; set; }
 
         /// <summary>
+        /// Property specifying the minimum LogLevel to output. Default is Information.
+        /// </summary>
+        /// <value>Gets/Sets the <see cref="LogLevel"/></value>
+        [Option(Name = "logLevel", ShortName = "ll")]
+        public LogLevel LogLevel { get; internal set; }
+
+        /// <summary>
         /// Creates a new Arguments class with default values.
         /// </summary>
         public Arguments()
         {
             Renderer = RendererOptions.Html;
             OutputDirectory = Directory.GetCurrentDirectory();
+            LogLevel = LogLevel.Information;
         }
     }
 
