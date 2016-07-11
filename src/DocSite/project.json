@@ -1,6 +1,5 @@
 {
   "version": "1.0.0-*",
-  "name": "dotnet-docsite", 
   "buildOptions": {
     "emitEntryPoint": true,
     "embed": "Templates/**/*",
@@ -21,20 +20,9 @@
   },
   "configurations": {
     "Debug": {
-      "buildOptions": {
-        "emitEntryPoint": true,
-        "embed": "Templates/**/*",
-        "compile": "**/*.cs",
-        "xmlDoc": true,
-        "debugType": "portable"
-      }
     },
     "Release": {
       "buildOptions": {
-        "emitEntryPoint": true,
-        "embed": "Templates/**/*",
-        "compile": "**/*.cs",
-        "xmlDoc": true,
         "optimize": true,
         "debugType": "none"
       }
