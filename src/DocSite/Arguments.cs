@@ -52,6 +52,9 @@ namespace DocSite
         [Option(Name = "help", ShortName = "h", Description = "Show the help output.")]
         public bool Help { get; set; }
 
+        /// <summary>
+        /// Creates a new Arguments class with default values.
+        /// </summary>
         public Arguments()
         {
             Renderer = RendererOptions.Html;
