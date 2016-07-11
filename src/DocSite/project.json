@@ -20,9 +20,21 @@
     "summary": "Builds documentation pages out of C# documentation comments."
   },
   "configurations": {
-    "Debug": {},
+    "Debug": {
+      "buildOptions": {
+        "emitEntryPoint": true,
+        "embed": "Templates/**/*",
+        "compile": "**/*.cs",
+        "xmlDoc": true,
+        "debugType": "portable"
+      }
+    },
     "Release": {
       "buildOptions": {
+        "emitEntryPoint": true,
+        "embed": "Templates/**/*",
+        "compile": "**/*.cs",
+        "xmlDoc": true,
         "optimize": true,
         "debugType": "none"
       }
