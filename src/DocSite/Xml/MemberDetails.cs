@@ -208,16 +208,23 @@ namespace DocSite.Xml
         /// <param name="sections">List of sections to add to.</param>
         public void AddCommonSections(IList<ISection> sections)
         {
-            AddSummary(sections);
-            AddTypeParams(sections);
-            AddParams(sections);
-            AddReturns(sections);
-            AddValue(sections);
-            AddExceptions(sections);
-            AddPermissions(sections);
-            AddRemarks(sections);
-            AddExample(sections);
-            AddSeeAlso(sections);
+            try
+            {
+                AddSummary(sections);
+                AddTypeParams(sections);
+                AddParams(sections);
+                AddReturns(sections);
+                AddValue(sections);
+                AddExceptions(sections);
+                AddPermissions(sections);
+                AddRemarks(sections);
+                AddExample(sections);
+                AddSeeAlso(sections);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error getting doc sections for {FullName}", e);
+            }
         }
 
         private void AddSeeAlso(IList<ISection> sections)

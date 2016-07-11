@@ -4,6 +4,7 @@
     "emitEntryPoint": true,
     "embed": "Templates/**/*",
     "compile": "**/*.cs",
+    "copyToOutput": "dotnet-docsite.*",
     "xmlDoc": true 
   },
   "packOptions": {

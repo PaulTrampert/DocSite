@@ -17,9 +17,6 @@ namespace DocSite
     public class Program
     {
         /// <summary>
-        /// Logger factory to be used throughout the program.
-        /// </summary>
-        /// <summary>
         /// Entry point of DocSite
         /// </summary>
         /// <param name="args">Command line arguments.</param>

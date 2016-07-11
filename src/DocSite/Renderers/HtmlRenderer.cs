@@ -34,6 +34,7 @@ namespace DocSite.Renderers
         /// <param name="context">The <see cref="DocSiteModel"/> that will be rendered.</param>
         /// <param name="scriptsTemplateLoader"></param>
         /// <param name="cssTemplateLoader"></param>
+        /// <param name="logFactory"></param>
         public HtmlRenderer(ITemplateLoader htmlTemplateLoader, ITemplateLoader cssTemplateLoader, ITemplateLoader scriptsTemplateLoader, DocSiteModel context, ILoggerFactory logFactory = null)
         {
             _logger = (logFactory ?? new LoggerFactory().AddConsole()).CreateLogger<HtmlRenderer>();
@@ -88,10 +89,12 @@ namespace DocSite.Renderers
             foreach (var page in pages)
             {
                 var tree = new [] {site.BuildTree(page.Name, "html")};
+                _logger.LogTrace($"Nav Tree built for {page.Name}");
                 using (var writer = new StreamWriter(File.Create(Path.Combine(outPath, $"{page.Name}.html"))))
                 {
+                    _logger.LogTrace($"Rendering page {page.Name}");
                     RenderPageTo(page, tree, writer);
-                    _logger.LogInformation($"Rendered page {i}/{pageCount}");
+                    _logger.LogDebug($"Rendered page {i}/{pageCount}");
                 }
                 i++;
             }
@@ -128,6 +131,7 @@ namespace DocSite.Renderers
         /// </summary>
         public string RenderSection(Section section)
         {
+            _logger.LogTrace($"Rendering {typeof(Section).Name}: {section.Title}");
             var templateName = "Section.html";
             var template = _htmlTemplateLoader.LoadTemplate(templateName);
             if (template == null) throw new TemplateNotFoundException(templateName);
@@ -146,6 +150,7 @@ namespace DocSite.Renderers
         /// </summary>
         public string RenderTableSection(TableSection section)
         {
+            _logger.LogTrace($"Rendering {typeof(TableSection).Name}: {section.Title}");
             var templateName = "TableSection.html";
             var tableTemplate = _htmlTemplateLoader.LoadTemplate(templateName);
             if (tableTemplate == null) throw new TemplateNotFoundException(templateName);
@@ -171,6 +176,7 @@ namespace DocSite.Renderers
 
         private string RenderTableData(TableData data)
         {
+            _logger.LogTrace($"Rendering {typeof(TableData).Name}");
             return data.XmlContent == null ? data.TextContent ?? "" : RenderNode(data.XmlContent);
         }
 
@@ -179,6 +185,7 @@ namespace DocSite.Renderers
         /// </summary>
         public string RenderNodes(IEnumerable<XmlNode> nodes)
         {
+            _logger.LogTrace($"Rendering {nodes.Count()} nodes");
             return string.Join(" ", nodes.Select(n => RenderNode(n)));
         }
 
@@ -187,6 +194,7 @@ namespace DocSite.Renderers
         /// </summary>
         public string RenderNode(XmlNode node)
         {
+            _logger.LogTrace($"Rendering {node.Name} node");
             var templateName = $"{node.Name.Trim('#')}.html";
             var template = _htmlTemplateLoader.LoadTemplate(templateName);
             if (template == null) template = "@Body";
@@ -230,6 +238,7 @@ namespace DocSite.Renderers
         /// </summary>
         public string RenderDefinitionsSection(DefinitionsSection section)
         {
+            _logger.LogTrace($"Rendering {typeof(DefinitionsSection)}: {section.Title}");
             var templateName = "DefinitionsSection.html";
             var template = _htmlTemplateLoader.LoadTemplate(templateName);
             if (template == null) throw new TemplateNotFoundException(templateName);

@@ -6,6 +6,7 @@ using System.Xml;
 using DocSite.Renderers;
 using DocSite.Xml;
 using DocSite.Pages;
+using Microsoft.Extensions.Logging;
 
 namespace DocSite.SiteModel
 {
