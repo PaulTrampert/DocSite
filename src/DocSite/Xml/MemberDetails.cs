@@ -23,6 +23,10 @@ namespace DocSite.Xml
         /// </summary>
         public const string IdRegex = @"^[NTFPME!]:(?<fullName>(?<namespace>([^\.\(]+\.)+)?(?<localName>[^\(\.]+(\([^\)]+\))?))$";
 
+        private const string ParamsRegex = @"\([^\)]+\)";
+
+        private const string TypeRegex = @"(\w+\.)*(?<localPart>\w+(`\d)?)";
+
         /// <summary>
         /// The Id of the member. Mapps to the name attribute in the xml document.
         /// </summary>
@@ -142,7 +146,9 @@ namespace DocSite.Xml
             get
             {
                 if (Type == MemberType.Error) return null;
-                return ParseId().Groups["localName"].Value;
+                var localName = ParseId().Groups["localName"].Value;
+
+                return ShortenParams(localName);
             }
         }
 
@@ -347,6 +353,11 @@ namespace DocSite.Xml
         private Match ParseId()
         {
             return Regex.Match(Id, IdRegex);
+        }
+
+        private string ShortenParams(string localName)
+        {
+            return Regex.Replace(localName, TypeRegex, @"${localPart}");
         }
     }
 }

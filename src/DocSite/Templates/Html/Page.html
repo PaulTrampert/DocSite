@@ -15,6 +15,25 @@
             padding: 40px 15px;
             text-align: center;
         }
+
+        @media {
+            #navSection {
+                position: absolute;
+                overflow-y: scroll;
+                top: 60px;
+                bottom: 0;
+                left: 0;
+                width: 25%;
+            }
+            #mainSection {
+                position: absolute;
+                overflow-y: scroll;
+                top: 60px;
+                bottom: 0;
+                right: 0;
+                width: 74%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -27,12 +46,9 @@
 </nav>
 <div class="container-fluid" style="margin-top: 30px;">
     <div class="row">
-        <div class="col-md-3" role="complementary">
-            <nav class="hidden-print hidden-xs hidden-sm affix">
-                <ul id="navTree" class="nav"></ul>
-            </nav>
+        <div class="col-md-3" role="complementary" id="navSection">
         </div>
-        <div class="col-md-9" role="main">
+        <div class="col-md-9" role="main" id="mainSection">
 
             <h1>@Title</h1>
             @Body
@@ -45,7 +61,7 @@
 <script type="text/javascript">
     $(function() {
         var navData = JSON.parse('@NavJson');
-        $("#navTree").treeview({ data: navData, enableLinks: true });
+        $("#navSection").treeview({ data: navData, enableLinks: true });
     });
 </script>
 </body>
