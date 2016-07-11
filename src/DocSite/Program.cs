@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using DocSite.Renderers;
 using DocSite.SiteModel;
 using DocSite.TemplateLoaders;
 using DocSite.Xml;
 using Microsoft.Extensions.Logging;
+using PTrampert.AppArgs;
 
 namespace DocSite
 {
@@ -27,18 +29,32 @@ namespace DocSite
             var logger = LoggerFactory.CreateLogger<Program>();
             try
             {
-                var xmlPath = Path.GetFullPath(args[0]);
-                var outDir = Path.GetFullPath(args[1]);
+                var argParser = new MixedParser<Arguments>();
+                var arguments = argParser.Parse(args);
+                if (arguments.Help)
+                {
+                    var helpBuilder = new HelpBuilder<Arguments>();
+                    Console.WriteLine(helpBuilder.BuildHelp(typeof(Program).GetTypeInfo().Assembly.GetName().Name));
+                    return;
+                }
                 var builder = new ModelBuilder();
-                var xmlModel = builder.BuildModelFromXml(xmlPath);
+                var xmlModel = builder.BuildModelFromXml(arguments.DocXml);
                 var docModel = new DocSiteModel(xmlModel);
-                logger.LogInformation($"Documentation model built from {xmlPath}");
-                var htmlTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html");
-                var cssTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html.css");
-                var scriptsTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html.scripts");
-                var renderer = new HtmlRenderer(htmlTemplateLoader, cssTemplateLoader, scriptsTemplateLoader, docModel);
-                renderer.RenderSite(docModel, outDir);
-                logger.LogInformation($"Site rendered to {outDir}");
+                logger.LogInformation($"Documentation model built from {arguments.DocXml}");
+                IRenderer renderer = null;
+                switch (arguments.Renderer)
+                {
+                    case RendererOptions.Html:
+                    default:
+                        var htmlTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html");
+                        var cssTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html.css");
+                        var scriptsTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html.scripts");
+                        renderer = new HtmlRenderer(htmlTemplateLoader, cssTemplateLoader, scriptsTemplateLoader, docModel);
+                        logger.LogInformation($"Using Renderer: {typeof(HtmlRenderer).Name}");
+                        break;
+                }
+                renderer.RenderSite(docModel, arguments.OutputDirectory);
+                logger.LogInformation($"Site rendered to {arguments.OutputDirectory}");
             }
             catch (Exception e)
             {
