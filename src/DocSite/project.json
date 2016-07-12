@@ -19,6 +19,9 @@
     ],
     "summary": "Builds documentation pages out of C# documentation comments."
   },
+  "publishOptions": {
+    "includeFiles": ["dotnet-docsite", "dotnet-docsite.cmd"]
+  },
   "configurations": {
     "Debug": {
     },
@@ -47,6 +50,6 @@
     }
   },
   "tools": {
-    "dotnet-version": "1.1.0" 
+    "dotnet-version": "1.1.0"
   }
 }
