@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.25928.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{115053BE-DF14-472E-9F84-767E4C9BF5AE}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocSite", "DocSite\DocSite.csproj", "{C06DFFBD-3A9A-4780-AD04-200EBB9E5CD9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocSite.Test", "DocSite.Test\DocSite.Test.csproj", "{BDD63B8A-2F8F-4FCA-92A0-8EFF44776B35}"
