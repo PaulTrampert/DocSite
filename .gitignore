@@ -17,7 +17,6 @@
 [Rr]eleases/
 [Xx]64/
 [Xx]86/
-[Bb]uild/
 bld/
 [Bb]in/
 [Oo]bj/
@@ -244,3 +243,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 *.zip
+/DocSite.Console/Properties/launchSettings.json
