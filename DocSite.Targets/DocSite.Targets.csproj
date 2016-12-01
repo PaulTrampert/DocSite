@@ -31,7 +31,7 @@
     <ProjectReference Include="..\DocSite\DocSite.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="build\DocSite.targets;$(OutputPath)\*.dll; $(OutputPath)\*.json">
+    <Content Include="build\DocSite.targets;$(OutputPath)\$(MSBuildProjectName).dll; $(OutputPath)\$(MSBuildProjectName).deps.json">
       <Pack>true</Pack>
       <PackagePath>build\</PackagePath>
     </Content>
