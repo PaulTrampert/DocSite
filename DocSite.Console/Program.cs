@@ -24,41 +24,24 @@ namespace DocSite.Console
         {
             var arguments = new Arguments();
             var app = new CommandLineApplication();
-            app.Argument("Input File", "The documentation xml generated from your code.", 
-                arg => arguments.DocXml = arg.Value);
-            app.Option("-r|--renderer", "The renderer to use. Defaults to Html.", CommandOptionType.SingleValue,
-                opt => Enum.Parse(typeof(RendererOptions), opt.Value() ?? "Html"));
-            app.Option("-o|--output-directory", "Directory to render to. Defaults to the current directory.", CommandOptionType.SingleValue,
-                opt => arguments.OutputDirectory = opt.Value() ?? Directory.GetCurrentDirectory());
-            app.Option("-l|--log-level", "The minimum logging level to output. Defaults to Information.", CommandOptionType.SingleValue,
-                opt => Enum.Parse(typeof(LogLevel), opt.Value() ?? "Information"));
+            var inputFileArg = app.Argument("InputFile", "The documentation xml generated from your code.");
+            var rendererOpt = app.Option("-r|--renderer", "The renderer to use. Defaults to Html.", CommandOptionType.SingleValue,
+                opt => 
+                Enum.Parse(typeof(RendererOptions), opt.Value() ?? "Html"));
+            var outputOpt = app.Option("-o|--output-directory", "Directory to render to. Defaults to the current directory.", CommandOptionType.SingleValue);
+            var logLevelOpt = app.Option("-l|--log-level", "The minimum logging level to output. Defaults to Information.", CommandOptionType.SingleValue);
             app.HelpOption("-h|--help|-help|-?");
 
-            app.OnExecute(() => { 
+            app.OnExecute(() => {
+                arguments.DocXml = inputFileArg.Value;
+                arguments.Renderer = (RendererOptions)Enum.Parse(typeof(RendererOptions), rendererOpt.Value() ?? "Html", true);
+                arguments.OutputDirectory = outputOpt.Value() ?? Directory.GetCurrentDirectory();
+                arguments.LogLevel = (LogLevel)Enum.Parse(typeof(LogLevel), logLevelOpt.Value() ?? "Information", true);
                 var logFactory = new LoggerFactory().AddConsole(arguments.LogLevel);
                 var logger = logFactory.CreateLogger<Program>();
-
                 try
                 {
-                    var builder = new ModelBuilder();
-                    var xmlModel = builder.BuildModelFromXml(arguments.DocXml);
-                    var docModel = new DocSiteModel(xmlModel);
-                    logger.LogInformation($"Documentation model built from {arguments.DocXml}");
-                    IRenderer renderer = null;
-                    switch (arguments.Renderer)
-                    {
-                        case RendererOptions.Html:
-                        default:
-                            var htmlTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html");
-                            var cssTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html.css");
-                            var scriptsTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html.scripts");
-                            renderer = new HtmlRenderer(htmlTemplateLoader, cssTemplateLoader, scriptsTemplateLoader,
-                                docModel, logFactory);
-                            logger.LogInformation($"Using Renderer: {typeof(HtmlRenderer).Name}");
-                            break;
-                    }
-                    renderer.RenderSite(docModel, arguments.OutputDirectory);
-                    logger.LogInformation($"Site rendered to {arguments.OutputDirectory}");
+                    SiteBuilder.BuildSite(arguments, logFactory);
                 }
                 catch (Exception e)
                 {
@@ -69,5 +52,7 @@ namespace DocSite.Console
             });
             return app.Execute(args);
         }
+
+        
     }
 }

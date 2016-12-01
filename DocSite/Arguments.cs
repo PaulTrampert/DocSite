@@ -47,7 +47,7 @@ namespace DocSite
         /// Property specifying the minimum LogLevel to output. Default is Information.
         /// </summary>
         /// <value>Gets/Sets the <see cref="LogLevel"/></value>
-        public LogLevel LogLevel { get; internal set; }
+        public LogLevel LogLevel { get; set; }
 
         /// <summary>
         /// Creates a new Arguments class with default values.
