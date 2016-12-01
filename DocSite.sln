@@ -1,20 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.25928.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7EEB3419-189A-4AD3-A101-7060BFE2910A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocSite", "DocSite\DocSite.csproj", "{C06DFFBD-3A9A-4780-AD04-200EBB9E5CD9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{115053BE-DF14-472E-9F84-767E4C9BF5AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocSite.Test", "DocSite.Test\DocSite.Test.csproj", "{BDD63B8A-2F8F-4FCA-92A0-8EFF44776B35}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0591CC17-2F81-4126-947F-52F12685B954}"
 	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
+		Jenkinsfile = Jenkinsfile
 	EndProjectSection
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DocSite", "src\DocSite\DocSite.xproj", "{C06DFFBD-3A9A-4780-AD04-200EBB9E5CD9}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C739D4D9-6BE0-46DD-8520-F5EE6EACFEB6}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DocSite.Test", "test\DocSite.Test\DocSite.Test.xproj", "{BDD63B8A-2F8F-4FCA-92A0-8EFF44776B35}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,18 +20,14 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C06DFFBD-3A9A-4780-AD04-200EBB9E5CD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C06DFFBD-3A9A-4780-AD04-200EBB9E5CD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C06DFFBD-3A9A-4780-AD04-200EBB9E5CD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C06DFFBD-3A9A-4780-AD04-200EBB9E5CD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C06DFFBD-3A9A-4780-AD04-200EBB9E5CD9}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{C06DFFBD-3A9A-4780-AD04-200EBB9E5CD9}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{BDD63B8A-2F8F-4FCA-92A0-8EFF44776B35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BDD63B8A-2F8F-4FCA-92A0-8EFF44776B35}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BDD63B8A-2F8F-4FCA-92A0-8EFF44776B35}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BDD63B8A-2F8F-4FCA-92A0-8EFF44776B35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDD63B8A-2F8F-4FCA-92A0-8EFF44776B35}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDD63B8A-2F8F-4FCA-92A0-8EFF44776B35}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{C06DFFBD-3A9A-4780-AD04-200EBB9E5CD9} = {7EEB3419-189A-4AD3-A101-7060BFE2910A}
-		{BDD63B8A-2F8F-4FCA-92A0-8EFF44776B35} = {C739D4D9-6BE0-46DD-8520-F5EE6EACFEB6}
 	EndGlobalSection
 EndGlobal

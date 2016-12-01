@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "DocSite": {
-      "commandName": "Project",
-      "commandLineArgs": "-i C:\\Projects\\DocSite\\src\\DocSite\\bin\\Debug\\netcoreapp1.0\\DocSite.xml -o C:\\Projects\\docsite-doc"
-    }
-  }
-}
