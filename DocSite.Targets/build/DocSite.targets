@@ -1,0 +1,16 @@
+﻿<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask TaskName="GenerateDocSite" AssemblyFile="$(MSBuildThisFileFullPath)DocSite.Targets.dll"/>
+
+  <PropertyGroup>
+    <DocXml Condition="$(DocXml) != ''">$(OutputPath)\$(MSBuildProjectName).xml</DocXml>
+    <Renderer Condition="$(Renderer) != ''">Html</Renderer>
+    <DocOutputDirectory Condition="$(DocOutputDirectory) != ''">$(OutputPath)\DocSite</DocOutputDirectory>
+  </PropertyGroup>
+  
+  <Target Name="GenerateDocSite" Condition="'$(GenerateDocumentationFile)' == 'true' And $(DocXml) != ''">
+    <GenerateDocSite
+      DocXml="$(DocXml)"
+      Renderer="$(Renderer)"
+      OutputDirectory="$(DocOutputDirectory)" />
+  </Target>
+</Project>
