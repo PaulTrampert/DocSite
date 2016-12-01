@@ -68,6 +68,10 @@ namespace DocSite
         /// <summary>
         /// Specifies the Html renderer type.
         /// </summary>
-        Html
+        Html,
+        /// <summary>
+        /// Specifies the Markdown renderer type.
+        /// </summary>
+        Md
     }
 }

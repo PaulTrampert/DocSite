@@ -125,7 +125,7 @@ namespace DocSite.SiteModel
         /// </summary>
         /// <param name="currentPage"></param>
         /// <param name="hrefExtension"></param>
-        public Tree BuildTree(string currentPage, string hrefExtension)
+        public Tree BuildTree(string currentPage, string hrefExtension = null)
         {
             var href = "index" + (hrefExtension != null ? $".{hrefExtension}" : "");
             return new Tree

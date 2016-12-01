@@ -29,6 +29,10 @@ namespace DocSite
             IRenderer renderer = null;
             switch (arguments.Renderer)
             {
+                case RendererOptions.Md:
+                    var mdTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Markdown");
+                    renderer = new MarkdownRenderer(mdTemplateLoader, logFactory);
+                    break;
                 case RendererOptions.Html:
                 default:
                     var htmlTemplateLoader = new EmbeddedTemplateLoader("DocSite.Templates.Html");
